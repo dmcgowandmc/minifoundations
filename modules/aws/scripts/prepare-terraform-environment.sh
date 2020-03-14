@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# Simple shell script sets the minimum environment for AWS Mini Foundations. Once done, the teraform modules do the rest
+
+# Creates
+# * terrastate bucket with bublic access blocked, encryptin and versioning enabled
+# * IAM role with sufficient priviliedges to perform deployment tasks
+# * IAM user to assume IAM role in event deployment is been performed by resource outside of AWS
+
+# NOTE: Strongly recommend running this on latest Ubuntu or Debian OS
+
+# Following Enhancements Needed
+# * Want to hide output of CLI
+
+# Prepare Variables
+PROJECT_CODE=$1
+REGION=$2
+
+# Verify project code
+printf "Verifying project code. Should be three letters max, lower case, no numbers"
+
+if [[ -z $PROJECT_CODE ]]; then
+    printf ". No project code provided \n"
+    exit 1
+fi
+
+if ! [[ $PROJECT_CODE =~ ^[a-z]{3}$ ]]; then
+    printf ". Should be three letters max, lower case, no numbers \n"
+    exit 1
+fi
+
+printf "\xE2\x9C\x94 \n"
+
+# Verify region
+printf "Verify region provided (we don't check if it's valid at this time)"
+
+if [[ -z $REGION ]]; then
+    printf ". No region provided \n"
+    exit 1
+fi
+
+printf "\xE2\x9C\x94 \n"
+
+# Check for S3 bucket and create if it doesn't exist
+# Make sure all public access is blocked, encryption enabled and versioning is on
+printf "Ensuring terrastate bucket exists"
+
+if [[ -z $(aws s3api list-buckets --query "Buckets[].Name" --output=text | grep $PROJECT_CODE-terrastate) ]]; then
+
+    aws s3api create-bucket \
+    --bucket $PROJECT_CODE-terrastate \
+    --region $REGION \
+    --create-bucket-configuration LocationConstraint=$REGION
+
+    aws s3api put-public-access-block \
+    --bucket $PROJECT_CODE-terrastate \
+    --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
+
+    aws s3api put-bucket-encryption \
+    --bucket $PROJECT_CODE-terrastate \
+    --server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}'
+
+    aws s3api put-bucket-versioning \
+    --bucket $PROJECT_CODE-terrastate \
+    --versioning-configuration Status=Enabled
+
+    printf "\xE2\x9C\x94 \n"
+else
+    printf ". Bucket found\xE2\x9C\x94 \n"
+fi
