@@ -1,16 +1,18 @@
 #!/bin/bash
 
-# Simple shell script sets the minimum environment for AWS Mini Foundations. Once done, the teraform modules do the rest
+# Simple shell script sets the minimum environment for AWS Mini Foundations. Once done, the terraform modules do the rest
 
 # Creates
 # * terrastate bucket with bublic access blocked, encryptin and versioning enabled
 # * IAM role with sufficient priviliedges to perform deployment tasks
 # * IAM user to assume IAM role in event deployment is been performed by resource outside of AWS
 
-# NOTE: Strongly recommend running this on latest Ubuntu or Debian OS
+# NOTE: Strongly recommend running this on latest Ubuntu or Debian OS. AWS CLI 2.x or higher required
 
 # Following Enhancements Needed
-# * Want to hide output of CLI
+# * Need to create policy to IAM user can assume IAM role.
+# * Want to hide output of CLI on success
+# * Add tags to resources
 
 # Prepare Variables
 PROJECT_CODE=$1
@@ -68,3 +70,50 @@ if [[ -z $(aws s3api list-buckets --query "Buckets[].Name" --output=text | grep 
 else
     printf ". Bucket found\xE2\x9C\x94 \n"
 fi
+
+#Create deployment role
+printf "Verify foundations deployment role exists"
+
+if [[ -z $(aws iam list-roles --query Roles[].RoleName --output=text | grep $PROJECT_CODE-foundations-deploy) ]]; then
+    
+    aws iam create-role \
+    --role-name $PROJECT_CODE-foundations-deploy \
+    --assume-role-policy-document "file://$(pwd)/modules/aws/scripts/configs/trust.json"
+    
+    printf "\xE2\x9C\x94 \n"
+else
+    printf ". Role found\xE2\x9C\x94 \n"
+fi
+
+#Assign relevant policies to deployment role
+printf "Assign relevant policies to deployment role"
+
+DEPLOYMENT_POLICIES="$(pwd)/modules/aws/scripts/configs/policies.txt"
+while IFS= read -r LINE
+do
+    printf ". \n Add $LINE"
+
+    aws iam attach-role-policy \
+    --role-name $PROJECT_CODE-foundations-deploy \
+    --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess
+
+    printf "\xE2\x9C\x94 \n"
+done < "$DEPLOYMENT_POLICIES"
+
+#Create IAM user for external deployment access
+printf "Verify foundations deployment IAM user exists"
+
+if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-foundations-deploy) ]]; then
+
+    aws iam create-user \
+    --user-name $PROJECT_CODE-foundations-deploy
+
+    # aws iam attach-user-policy \
+    # --user-name $PROJECT_CODE-foundations-deploy \
+    # --policy-arn '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Action":"sts:AssumeRole","Resource":"arn:aws:iam::ACCOUNT-ID-WITHOUT-HYPHENS:role/Test*"}}'
+
+    printf "\xE2\x9C\x94 \n WARNING: Script doesn't create policy to allow IAM user to assume IAM role yet. You must do this manually if needed"
+else
+    printf ". IAM user found\xE2\x9C\x94 \n"
+fi
+
