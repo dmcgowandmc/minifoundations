@@ -78,7 +78,16 @@ if [[ -z $(aws iam list-roles --query Roles[].RoleName --output=text | grep $PRO
     
     aws iam create-role \
     --role-name $PROJECT_CODE-foundations-deploy \
-    --assume-role-policy-document "file://$(pwd)/scripts/configs/trust.json"
+    --assume-role-policy-document "file://$(pwd)/scripts/configs/trust.json" \
+    --query Role.RoleName
+
+    aws iam create-instance-profile \
+    --instance-profile-name $PROJECT_CODE-foundations-deploy \
+    --query InstanceProfile.InstanceProfileName
+
+    aws iam add-role-to-instance-profile \
+    --instance-profile-name $PROJECT_CODE-foundations-deploy \
+    --role-name $PROJECT_CODE-foundations-deploy
     
     printf "\xE2\x9C\x94 \n"
 else
