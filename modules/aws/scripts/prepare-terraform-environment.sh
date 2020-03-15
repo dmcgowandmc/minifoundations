@@ -78,7 +78,7 @@ if [[ -z $(aws iam list-roles --query Roles[].RoleName --output=text | grep $PRO
     
     aws iam create-role \
     --role-name $PROJECT_CODE-foundations-deploy \
-    --assume-role-policy-document "file://$(pwd)/modules/aws/scripts/configs/trust.json"
+    --assume-role-policy-document "file://$(pwd)/scripts/configs/trust.json"
     
     printf "\xE2\x9C\x94 \n"
 else
@@ -88,7 +88,7 @@ fi
 #Assign relevant policies to deployment role
 printf "Assign relevant policies to deployment role"
 
-DEPLOYMENT_POLICIES="$(pwd)/modules/aws/scripts/configs/policies.txt"
+DEPLOYMENT_POLICIES="$(pwd)/scripts/configs/policies.txt"
 while IFS= read -r LINE
 do
     printf ". \n Add $LINE"
