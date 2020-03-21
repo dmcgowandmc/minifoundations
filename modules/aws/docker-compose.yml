@@ -7,3 +7,6 @@ services:
         volumes:
             - ".:/build"
         working_dir: /build
+        environment:
+            - AWS_ACCESS_KEY_ID
+            - AWS_SECRET_ACCESS_KEY

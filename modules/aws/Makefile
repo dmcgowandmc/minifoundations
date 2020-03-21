@@ -10,4 +10,4 @@ prepare_terraform_environment:
 
 deploy_environment_init_plan:
 	@echo "--- Init and Plan for Environment Deploy (Docker and Compose must be installed) ---"
-	@docker-compose run --rm terraform init -backend-config="bucket=$(PROJECT_CODE)-terrastate"
+	@docker-compose run --rm terraform init -backend-config="bucket=$(PROJECT_CODE)-terrastate" -backend-config="key=foundations/" -backend-config="region=$(REGION)"

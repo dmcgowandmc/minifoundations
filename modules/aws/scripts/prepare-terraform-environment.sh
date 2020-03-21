@@ -17,6 +17,7 @@
 # Prepare Variables
 PROJECT_CODE=$1
 REGION=$2
+ACCOUNT=$(aws sts get-caller-identity --query Account --output=text)
 
 # Verify project code
 printf "Verifying project code. Should be three letters max, lower case, no numbers"
@@ -104,7 +105,7 @@ do
 
     aws iam attach-role-policy \
     --role-name $PROJECT_CODE-foundations-deploy \
-    --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess
+    --policy-arn $LINE
 
     printf "\xE2\x9C\x94 \n"
 done < "$DEPLOYMENT_POLICIES"
@@ -114,15 +115,33 @@ printf "Verify foundations deployment IAM user exists"
 
 if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-foundations-deploy) ]]; then
 
+    #IMPORTANT NOTE FOR ENHANCEMENT:
+    #I ideally want the permissions for the IAM user to be basic to force users to assume the role via this user where applicable
+    #Due to work involved in doing this, I am parking this for now
+
+    #CURRENT IMPLEMENTATION
+    #IAM User will be assigned identical permissions to the IAM role. Users will be instructed to use the role when working with internal resources
+    #Only resort to the IAM user if you must interact with AWS from outside AWS itself
+
     aws iam create-user \
     --user-name $PROJECT_CODE-foundations-deploy
-
-    # aws iam attach-user-policy \
-    # --user-name $PROJECT_CODE-foundations-deploy \
-    # --policy-arn '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Action":"sts:AssumeRole","Resource":"arn:aws:iam::ACCOUNT-ID-WITHOUT-HYPHENS:role/Test*"}}'
 
     printf "\xE2\x9C\x94 \n WARNING: Script doesn't create policy to allow IAM user to assume IAM role yet. You must do this manually if needed"
 else
     printf ". IAM user found\xE2\x9C\x94 \n"
 fi
 
+#Assign relevant policies to deployment IAM user
+printf "Assign relevant policies to deployment IAM user"
+
+DEPLOYMENT_POLICIES="$(pwd)/scripts/configs/policies.txt"
+while IFS= read -r LINE
+do
+    printf ". \n Add $LINE"
+
+    aws iam attach-user-policy \
+    --user-name $PROJECT_CODE-foundations-deploy \
+    --policy-arn $LINE
+
+    printf "\xE2\x9C\x94 \n"
+done < "$DEPLOYMENT_POLICIES"
