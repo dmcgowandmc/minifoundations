@@ -25,11 +25,15 @@ Some features of the foundations:
 
 Regardless of the cloud provider, there are a few steps you need to perform before you can use terraform such as creating valid credentials and a location to store the terraform state file.
 
-In each module/\<cloud_provider\> folder, there is a make file that can do these prepare tasks for you and a README.md with instructions. Please note that these make files use bash scripts and there behavior can be inconsistent depending on what you run these steps on. Strongly recommended to run on a Ubuntu or Debian distro
+In each module/\<cloud_provider\> folder, there is a make file that can do these prepare tasks for you and a README.md with instructions. Please note that these make files use bash scripts and there behavior can be inconsistent depending on what you run these steps on. Strongly recommended to run on a Ubuntu or Debian distro.
+
+NOTE: The setup of credentials to interact with your cloud provider must be done separately to these scripts. The script will not handle this for you yet 
 
 ### Deployment
 
 For actual deployment using terraform (once prepare steps are completed), you have two options:
+
+NOTE: The setup of credentials to interact with your cloud provider must be done separately to deployment via these options. Current scripts will not handle this for you yet.
 
 #### Option 1
 
