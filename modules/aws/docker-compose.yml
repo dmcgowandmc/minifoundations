@@ -1,0 +1,12 @@
+---
+version: "2.0"
+services:
+    terraform:
+        build: .
+        image: custom/terraform:0.12.20
+        volumes:
+            - ".:/build"
+        working_dir: /build
+        environment:
+            - AWS_ACCESS_KEY_ID
+            - AWS_SECRET_ACCESS_KEY

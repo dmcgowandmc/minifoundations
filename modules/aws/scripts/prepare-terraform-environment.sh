@@ -17,6 +17,7 @@
 # Prepare Variables
 PROJECT_CODE=$1
 REGION=$2
+ACCOUNT=$(aws sts get-caller-identity --query Account --output=text)
 
 # Verify project code
 printf "Verifying project code. Should be three letters max, lower case, no numbers"
@@ -71,49 +72,31 @@ else
     printf ". Bucket found\xE2\x9C\x94 \n"
 fi
 
-#Create deployment role
-printf "Verify foundations deployment role exists"
-
-if [[ -z $(aws iam list-roles --query Roles[].RoleName --output=text | grep $PROJECT_CODE-foundations-deploy) ]]; then
-    
-    aws iam create-role \
-    --role-name $PROJECT_CODE-foundations-deploy \
-    --assume-role-policy-document "file://$(pwd)/modules/aws/scripts/configs/trust.json"
-    
-    printf "\xE2\x9C\x94 \n"
-else
-    printf ". Role found\xE2\x9C\x94 \n"
-fi
-
-#Assign relevant policies to deployment role
-printf "Assign relevant policies to deployment role"
-
-DEPLOYMENT_POLICIES="$(pwd)/modules/aws/scripts/configs/policies.txt"
-while IFS= read -r LINE
-do
-    printf ". \n Add $LINE"
-
-    aws iam attach-role-policy \
-    --role-name $PROJECT_CODE-foundations-deploy \
-    --policy-arn arn:aws:iam::aws:policy/ReadOnlyAccess
-
-    printf "\xE2\x9C\x94 \n"
-done < "$DEPLOYMENT_POLICIES"
-
 #Create IAM user for external deployment access
 printf "Verify foundations deployment IAM user exists"
 
-if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-foundations-deploy) ]]; then
+if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-bootstrap-deploy) ]]; then
 
+    #Create a bootstrap IAM user so foundations can be deployed
     aws iam create-user \
-    --user-name $PROJECT_CODE-foundations-deploy
-
-    # aws iam attach-user-policy \
-    # --user-name $PROJECT_CODE-foundations-deploy \
-    # --policy-arn '{"Version":"2012-10-17","Statement":{"Effect":"Allow","Action":"sts:AssumeRole","Resource":"arn:aws:iam::ACCOUNT-ID-WITHOUT-HYPHENS:role/Test*"}}'
+    --user-name $PROJECT_CODE-bootstrap-deploy
 
     printf "\xE2\x9C\x94 \n WARNING: Script doesn't create policy to allow IAM user to assume IAM role yet. You must do this manually if needed"
 else
     printf ". IAM user found\xE2\x9C\x94 \n"
 fi
 
+#Assign relevant policies to deployment IAM user
+printf "Assign relevant policies to deployment IAM user"
+
+DEPLOYMENT_POLICIES="$(pwd)/scripts/configs/policies.txt"
+while IFS= read -r LINE
+do
+    printf ". \n Add $LINE"
+
+    aws iam attach-user-policy \
+    --user-name $PROJECT_CODE-bootstrap-deploy \
+    --policy-arn $LINE
+
+    printf "\xE2\x9C\x94 \n"
+done < "$DEPLOYMENT_POLICIES"
