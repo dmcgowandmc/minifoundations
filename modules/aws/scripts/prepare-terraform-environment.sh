@@ -72,57 +72,12 @@ else
     printf ". Bucket found\xE2\x9C\x94 \n"
 fi
 
-#Create deployment role
-printf "Verify foundations deployment role exists"
-
-if [[ -z $(aws iam list-roles --query Roles[].RoleName --output=text | grep $PROJECT_CODE-foundations-deploy) ]]; then
-    
-    aws iam create-role \
-    --role-name $PROJECT_CODE-foundations-deploy \
-    --assume-role-policy-document "file://$(pwd)/scripts/configs/trust.json" \
-    --query Role.RoleName
-
-    aws iam create-instance-profile \
-    --instance-profile-name $PROJECT_CODE-foundations-deploy \
-    --query InstanceProfile.InstanceProfileName
-
-    aws iam add-role-to-instance-profile \
-    --instance-profile-name $PROJECT_CODE-foundations-deploy \
-    --role-name $PROJECT_CODE-foundations-deploy
-    
-    printf "\xE2\x9C\x94 \n"
-else
-    printf ". Role found\xE2\x9C\x94 \n"
-fi
-
-#Assign relevant policies to deployment role
-printf "Assign relevant policies to deployment role"
-
-DEPLOYMENT_POLICIES="$(pwd)/scripts/configs/policies.txt"
-while IFS= read -r LINE
-do
-    printf ". \n Add $LINE"
-
-    aws iam attach-role-policy \
-    --role-name $PROJECT_CODE-foundations-deploy \
-    --policy-arn $LINE
-
-    printf "\xE2\x9C\x94 \n"
-done < "$DEPLOYMENT_POLICIES"
-
 #Create IAM user for external deployment access
 printf "Verify foundations deployment IAM user exists"
 
 if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-foundations-deploy) ]]; then
 
-    #IMPORTANT NOTE FOR ENHANCEMENT:
-    #I ideally want the permissions for the IAM user to be basic to force users to assume the role via this user where applicable
-    #Due to work involved in doing this, I am parking this for now
-
-    #CURRENT IMPLEMENTATION
-    #IAM User will be assigned identical permissions to the IAM role. Users will be instructed to use the role when working with internal resources
-    #Only resort to the IAM user if you must interact with AWS from outside AWS itself
-
+    #Create a bootstrap IAM user so foundations can be deployed
     aws iam create-user \
     --user-name $PROJECT_CODE-foundations-deploy
 
