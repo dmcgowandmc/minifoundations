@@ -25,4 +25,31 @@ make prepare_terraform_environment PROJECT_CODE=tst REGION=ap-southeast-2
 
 ### Deploy Environment
 
-Instructions to be provided once I have written some terraform code!
+Before running deployment for first time:
+
+* Ensure prepare_terraform_environment was run and IAM user was successfully created
+* Create IAM credentials for the IAM user
+ * Log into AWS console with user that has permission to modify IAM credentials
+ * Go to the security section of the newly created user in the console (E.G: https://console.aws.amazon.com/iam/home#/users/tst-foundations-deploy?section=security_credentials)
+ * Create access key and secret and keep in a safe place
+
+Before running in a new terminal session
+
+* Set the credentials as follows:
+
+```bash
+export AWS_ACCESS_KEY_ID=<key>
+export AWS_SECRET_ACCESS_KEY=<secret>
+```
+
+To Initialize foundations (this step will download required modules and set statefile location)
+
+```bash
+make terraform_init_plan PROJECT_CODE=<3 letter project code> REGION=<desired region>
+```
+
+Example:
+
+```bash
+make terraform_init_plan PROJECT_CODE=tst REGION=ap-southeast-2
+```

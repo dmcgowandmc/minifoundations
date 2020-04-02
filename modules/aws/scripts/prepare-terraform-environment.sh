@@ -79,7 +79,7 @@ if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PRO
 
     #Create a bootstrap IAM user so foundations can be deployed
     aws iam create-user \
-    --user-name $PROJECT_CODE-foundations-deploy
+    --user-name $PROJECT_CODE-bootstrap-deploy
 
     printf "\xE2\x9C\x94 \n WARNING: Script doesn't create policy to allow IAM user to assume IAM role yet. You must do this manually if needed"
 else
@@ -95,7 +95,7 @@ do
     printf ". \n Add $LINE"
 
     aws iam attach-user-policy \
-    --user-name $PROJECT_CODE-foundations-deploy \
+    --user-name $PROJECT_CODE-bootstrap-deploy \
     --policy-arn $LINE
 
     printf "\xE2\x9C\x94 \n"
