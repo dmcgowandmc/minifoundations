@@ -42,7 +42,7 @@ export AWS_ACCESS_KEY_ID=<key>
 export AWS_SECRET_ACCESS_KEY=<secret>
 ```
 
-To Initialize foundations (this step will download required modules and set statefile location)
+To Initialize foundations and run a plan (this step will download required modules and set statefile location)
 
 ```bash
 make terraform_init_plan PROJECT_CODE=<3 letter project code> REGION=<desired region>
@@ -52,4 +52,16 @@ Example:
 
 ```bash
 make terraform_init_plan PROJECT_CODE=tst REGION=ap-southeast-2
+```
+
+To actually apply changes (terraform_init_plan must be run first)
+
+```bash
+make terraform_apply PROJECT_CODE=<3 letter project code> REGION=<desired region>
+```
+
+Example:
+
+```bash
+make terraform_apply PROJECT_CODE=tst REGION=ap-southeast-2
 ```

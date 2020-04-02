@@ -75,7 +75,7 @@ fi
 #Create IAM user for external deployment access
 printf "Verify foundations deployment IAM user exists"
 
-if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-foundations-deploy) ]]; then
+if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-bootstrap-deploy) ]]; then
 
     #Create a bootstrap IAM user so foundations can be deployed
     aws iam create-user \
