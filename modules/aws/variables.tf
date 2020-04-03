@@ -12,17 +12,32 @@ variable "project_code" {
     description = "Three letter prefix to identity your resources. All resources will be prefixed with this code"
 }
 
-variable "group_name" {
+variable "group_admin_name" {
     type        = string
-    description = "Name of the group"
+    description = "Name of the the admin group"
 }
 
-variable "group_self_management_policy" {
+variable "group_admin_self_management_policy" {
     type        = bool
-    description = "Flag to indicate if members of this group our allowed to manage there passwords and 2FA"
+    description = "Flag to indicate if members of this admin group our allowed to manage there passwords and 2FA"
 }
 
-variable "group_policy_arns" {
+variable "group_admin_policy_arns" {
     type        = list(string)
-    description = "List of ARNs already defined to attach to this group. Must be defined"
+    description = "List of ARNs to attach to this admin group. Must be defined"
+}
+
+variable "group_infra_name" {
+    type        = string
+    description = "Name of the the infra group"
+}
+
+variable "group_infra_self_management_policy" {
+    type        = bool
+    description = "Flag to indicate if members of this infra group our allowed to manage there passwords and 2FA"
+}
+
+variable "group_infra_policy_arns" {
+    type        = list(string)
+    description = "List of ARNs to attach to this infra group. Must be defined"
 }
