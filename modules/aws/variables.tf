@@ -25,6 +25,7 @@ variable "group_admin_self_management_policy" {
 variable "group_admin_policy_arns" {
     type        = list(string)
     description = "List of ARNs to attach to this admin group. Must be defined"
+    default     = []
 }
 
 variable "group_infra_name" {
@@ -40,4 +41,37 @@ variable "group_infra_self_management_policy" {
 variable "group_infra_policy_arns" {
     type        = list(string)
     description = "List of ARNs to attach to this infra group. Must be defined"
+    default     = []
+}
+
+variable "role_infra_name" {
+    type        = string
+    description = "Name of the infra role"
+}
+
+variable "role_infra_policy_arns" {
+    type        = list(string)
+    description = "List of ARNs to attach to this infra role. Must be defined"
+    default     = []
+}
+
+variable "role_infra_trusted_services" {
+    type        = list(string)
+    description = "List of trusted services that can use this role"
+}
+
+variable "role_app_name" {
+    type        = string
+    description = "Name of the infra role"
+}
+
+variable "role_app_policy_arns" {
+    type        = list(string)
+    description = "List of ARNs to attach to this infra role. Must be defined"
+    default     = []
+}
+
+variable "role_app_trusted_services" {
+    type        = list(string)
+    description = "List of trusted services that can use this role"
 }

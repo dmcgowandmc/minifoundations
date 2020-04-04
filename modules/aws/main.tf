@@ -21,3 +21,23 @@ module "infra_group" {
     self_management_policy = var.group_infra_self_management_policy
     policy_arns            = var.group_infra_policy_arns
 }
+
+#Create infra role (for use by CICD)
+module "infra_role" {
+    source = "./modules/roles"
+
+    project_code     = var.project_code
+    name             = var.role_infra_name
+    policy_arns      = var.role_infra_policy_arns
+    trusted_services = var.role_infra_trusted_services
+}
+
+#Create app role (for use by CICD)
+module "app_role" {
+    source = "./modules/roles"
+
+    project_code     = var.project_code
+    name             = var.role_app_name
+    policy_arns      = var.role_app_policy_arns
+    trusted_services = var.role_app_trusted_services
+}
