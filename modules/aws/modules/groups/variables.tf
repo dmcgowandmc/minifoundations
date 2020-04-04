@@ -2,6 +2,11 @@
 ## All variables for creation of groups resides here ##
 #######################################################
 
+variable "project_code" {
+    type        = string
+    description = "Three letter prefix to identity your resources. All resources will be prefixed with this code"
+}
+
 variable "name" {
     type        = string
     description = "Name of the group"
@@ -20,7 +25,7 @@ variable "self_management_policy" {
 
 variable "policy_arns" {
     type        = list(string)
-    description = "List of ARNs already defined to attach to this group. This can be ignored if desired"
+    description = "List of ARNs to attach to this group. This can be ignored if desired"
     default     = []
 }
 

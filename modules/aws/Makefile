@@ -10,7 +10,7 @@ prepare_terraform_environment:
 
 terraform_init_plan:
 	@echo "--- Init and Plan for Terraform (Docker and Compose must be installed) ---"
-	@docker-compose run --rm terraform init -backend-config="bucket=$(PROJECT_CODE)-terrastate" -backend-config="key=foundations/" -backend-config="region=$(REGION)"
+	@docker-compose run --rm terraform init -backend-config="bucket=$(PROJECT_CODE)-terrastate" -backend-config="key=foundations/default.tfstate" -backend-config="region=$(REGION)"
 	@docker-compose run --rm terraform plan -var project_code=$(PROJECT_CODE) -var "region=$(REGION)"
 
 .PHONY: terraform_apply
