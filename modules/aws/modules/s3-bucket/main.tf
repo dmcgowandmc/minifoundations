@@ -12,6 +12,7 @@ resource "random_id" "bucket_prefix" {
     byte_length = 2
 }
 
+#Actually create the s3 bucket. With the exception of the bucket name, this module should be as similar to the aws s3-bucket as possible
 module "s3_bucket" {
     source  = "terraform-aws-modules/s3-bucket/aws"
     version = "~> 1.0"
