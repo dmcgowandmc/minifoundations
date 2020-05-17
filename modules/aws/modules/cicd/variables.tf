@@ -14,12 +14,22 @@ variable "artefact_bucket_name" {
 
 variable "cp_name" {
     type        = string
-    description = "Name of the Code Commit Repository"
+    description = "Name of the Code Pipeline"
 }
 
 variable "cp_description" {
     type        = string
-    description = "Description of the Code Commit Repository"
+    description = "Description of the Code Pipeline"
+}
+
+variable "cb_name" {
+    type        = string
+    description = "Name of the Code Build Project"
+}
+
+variable "cb_description" {
+    type        = string
+    description = "Description of the Code Build Project"
 }
 
 variable "cp_role_arn" {
@@ -27,13 +37,17 @@ variable "cp_role_arn" {
     description = "The ARN of the role CodePipeline will use"
 }
 
-variable "cp_repo" {
+variable "cp_repo_name" {
     type        = string
     description = "Name of the repository CodePipeline stage one will read from"
 }
 
-variable "gitlab_name"
-variable "gitlab_oauthtoken" {
+variable "cp_repo_owner" {
     type        = string
-    description = "Oauth token for authorized access to GitLab repo (only GitLab supported at this time)"
+    description = "Owner of the repository CodePipeline state one will read from"
+}
+
+variable "cp_repo_oauthtoken" {
+    type        = string
+    description = "Oauth token for authorized access to repo (only GitLab supported at this time)"
 }

@@ -71,5 +71,9 @@ module "cicd_foundations" {
     cp_name              = var.cp_foundations_name
     cp_description       = var.cp_foundations_desc
     cp_role_arn          = module.infra_role.role_arn
-    cp_repo              = var.cp_foundations_repo
+    cp_repo_name         = var.cp_foundations_repo_name
+    cp_repo_owner        = var.cp_foundations_repo_owner
+    cp_repo_oauthtoken   = var.cp_foundations_repo_oauthtoken
+    cb_name              = var.cb_foundations_name    
+    cb_description       = var.cb_foundations_description
 }

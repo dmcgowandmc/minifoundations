@@ -35,6 +35,9 @@ role_app_trusted_services = [
 cp_bucket_name = "artefacts"
 
 #Inputs for CodePipeline foundations
-cp_foundations_name = "foundations"
-cp_foundations_desc = "Foundations Pipeline"
-cp_foundations_repo = "foundations"
+cp_foundations_name        = "foundations"
+cp_foundations_desc        = "Foundations Pipeline"
+cp_foundations_repo_name   = "minifoundations"
+cp_foundations_repo_owner  = "dmcgowandmc"
+cb_foundations_name        = "foundations"
+cb_foundations_description = "Foundations CodeBuild"

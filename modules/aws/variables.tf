@@ -88,10 +88,30 @@ variable "cp_foundations_name" {
 
 variable "cp_foundations_desc" {
     type        = string
-    description = "Description of te CodePipeline for foundations"
+    description = "Description of the CodePipeline for foundations"
 }
 
-variable "cp_foundations_repo" {
+variable "cp_foundations_repo_name" {
     type        = string
-    description = "Name of the CodeCommit repo for foundations"
+    description = "Name of the foundations repository CodePipeline stage one will read from"
+}
+
+variable "cp_foundations_repo_owner" {
+    type        = string
+    description = "Owner of the foundations repository CodePipeline state one will read from"
+}
+
+variable "cp_foundations_repo_oauthtoken" {
+    type        = string
+    description = "Oauth token for authorized access to foundations repo (only GitLab supported at this time)"
+}
+
+variable "cb_foundations_name" {
+    type        = string
+    description = "Name of the foundations Code Build Project"
+}
+
+variable "cb_foundations_description" {
+    type        = string
+    description = "Description of the foundations Code Build Project"
 }
