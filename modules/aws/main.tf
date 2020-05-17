@@ -41,3 +41,35 @@ module "app_role" {
     policy_arns      = var.role_app_policy_arns
     trusted_services = var.role_app_trusted_services
 }
+
+#Create storage bucket for CodePipeline
+module "cp_s3_bucket" {
+    source = "./modules/s3-bucket"
+
+    bucket_name = var.cp_bucket_name
+
+    server_side_encryption_configuration = {
+        rule = {
+            apply_server_side_encryption_by_default = {
+                sse_algorithm     = "AES256"
+            }
+        }
+    }
+
+    block_public_acls       = true
+    ignore_public_acls      = true
+    block_public_policy     = true
+    restrict_public_buckets = true
+}
+
+#Create CICD for the foundations repo
+module "cicd_foundations" {
+    source = "./modules/cicd"
+
+    project_code         = var.project_code
+    artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
+    cp_name              = var.cp_foundations_name
+    cp_description       = var.cp_foundations_desc
+    cp_role_arn          = module.infra_role.role_arn
+    cp_repo              = var.cp_foundations_repo
+}

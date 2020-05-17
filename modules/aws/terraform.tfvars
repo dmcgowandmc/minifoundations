@@ -21,7 +21,8 @@ role_infra_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonS3FullAccess"
 ]
 role_infra_trusted_services = [
-    "codebuild.amazonaws.com"
+    "codebuild.amazonaws.com",
+    "codepipeline.amazonaws.com"
 ]
 
 role_app_name = "fullstack"
@@ -29,3 +30,11 @@ role_app_name = "fullstack"
 role_app_trusted_services = [
     "codebuild.amazonaws.com"
 ]
+
+#Inputs for all CICD components
+cp_bucket_name = "artefacts"
+
+#Inputs for CodePipeline foundations
+cp_foundations_name = "foundations"
+cp_foundations_desc = "Foundations Pipeline"
+cp_foundations_repo = "foundations"

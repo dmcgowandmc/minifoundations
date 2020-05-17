@@ -1,6 +1,6 @@
-#####################################################
-## All variable s for base code should reside here ##
-#####################################################
+####################################################
+## All variables for base code should reside here ##
+####################################################
 
 variable "region" {
     type        = string
@@ -74,4 +74,24 @@ variable "role_app_policy_arns" {
 variable "role_app_trusted_services" {
     type        = list(string)
     description = "List of trusted services that can use this role"
+}
+
+variable "cp_bucket_name" {
+    type        = string
+    description = "Name of s3 bucket for CodePipeline artefacts"
+}
+
+variable "cp_foundations_name" {
+    type        = string
+    description = "Name of the CodePipeline for foundations"
+}
+
+variable "cp_foundations_desc" {
+    type        = string
+    description = "Description of te CodePipeline for foundations"
+}
+
+variable "cp_foundations_repo" {
+    type        = string
+    description = "Name of the CodeCommit repo for foundations"
 }
