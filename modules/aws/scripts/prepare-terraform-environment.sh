@@ -3,7 +3,7 @@
 # Simple shell script sets the minimum environment for AWS Mini Foundations. Once done, the terraform modules do the rest
 
 # Creates
-# * terrastate bucket with bublic access blocked, encryptin and versioning enabled
+# * terrastate bucket with bublic access blocked, encryption and versioning enabled
 # * IAM role with sufficient priviliedges to perform deployment tasks
 # * IAM user to assume IAM role in event deployment is been performed by resource outside of AWS
 

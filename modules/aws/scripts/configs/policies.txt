@@ -1,2 +1,5 @@
 arn:aws:iam::aws:policy/AmazonS3FullAccess
 arn:aws:iam::aws:policy/IAMFullAccess
+arn:aws:iam::aws:policy/AWSCodeCommitFullAccess
+arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess
+arn:aws:iam::aws:policy/AWSCodePipelineFullAccess
