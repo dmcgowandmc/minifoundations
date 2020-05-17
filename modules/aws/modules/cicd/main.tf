@@ -2,6 +2,13 @@
 ## All code for creating a CICD pipeline using code commit, build and pipeline defined here ##
 ##############################################################################################
 
+#Setting up GitHub authorization for CodeBuild
+resource "aws_codebuild_source_credential" "github_auth" {
+    auth_type   = "PERSONAL_ACCESS_TOKEN"
+    server_type = "GITHUB"
+    token       = var.cp_repo_oauthtoken
+}
+
 #Create the CodeBuild (since we are using terraform, we actually use code build for code deployment)
 resource "aws_codebuild_project" "codebuild" {
     name           = "${var.project_code}-${var.cb_name}"
@@ -12,12 +19,16 @@ resource "aws_codebuild_project" "codebuild" {
     service_role = var.cp_role_arn
 
     source {
-        type = "CODEPIPELINE"
+        type = "GITHUB"
+        auth = {
+            type     = "OAUTH"
+            resource = aws_codebuild_source_credential.github_auth.id
+        }
     }
 
-    artifacts {
-        type = "CODEPIPELINE"
-    }
+    # artifacts {
+    #     type = "CODEPIPELINE"
+    # }
 
     environment {
         compute_type = "BUILD_GENERAL1_SMALL"
@@ -31,10 +42,10 @@ resource "aws_codepipeline" "codepipeline" {
     name     = "${var.project_code}-${var.cp_name}"
     role_arn = var.cp_role_arn
 
-    artifact_store {
-        location = var.artefact_bucket_name
-        type     = "S3"
-    }
+    # artifact_store {
+    #     location = var.artefact_bucket_name
+    #     type     = "S3"
+    # }
 
     stage {
         name = "get_${var.cp_repo_name}"
@@ -45,7 +56,7 @@ resource "aws_codepipeline" "codepipeline" {
             owner            = "ThirdParty"
             provider         = "GitHub"
             version          = "1"
-            output_artifacts = [var.cp_name]
+            #output_artifacts = [var.cp_name]
 
             configuration = {
                 Owner      = var.cp_repo_owner
@@ -61,7 +72,7 @@ resource "aws_codepipeline" "codepipeline" {
             owner            = "ThirdParty"
             provider         = "GitHub"
             version          = "1"
-            output_artifacts = [var.cp_name]
+            #output_artifacts = [var.cp_name]
 
             configuration = {
                 Owner      = var.cp_repo_owner
