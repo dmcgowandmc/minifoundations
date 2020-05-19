@@ -76,6 +76,11 @@ variable "role_app_trusted_services" {
     description = "List of trusted services that can use this role"
 }
 
+variable "ssm_github_token" {
+    type        = string
+    description = "Name of the SSM parameter store that will contain your GitHub token (only GitLab supported at this time)"
+}
+
 variable "cp_bucket_name" {
     type        = string
     description = "Name of s3 bucket for CodePipeline artefacts"
@@ -91,19 +96,14 @@ variable "cp_foundations_desc" {
     description = "Description of the CodePipeline for foundations"
 }
 
-variable "cp_foundations_repo_name" {
+variable "cb_foundations_repo_path" {
     type        = string
-    description = "Name of the foundations repository CodePipeline stage one will read from"
+    description = "Path to the foundations GitHub repo Code Build will use"
 }
 
 variable "cp_foundations_repo_owner" {
     type        = string
     description = "Owner of the foundations repository CodePipeline state one will read from"
-}
-
-variable "cp_foundations_repo_oauthtoken" {
-    type        = string
-    description = "Oauth token for authorized access to foundations repo (only GitLab supported at this time)"
 }
 
 variable "cb_foundations_name" {

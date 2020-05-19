@@ -37,9 +37,9 @@ variable "cp_role_arn" {
     description = "The ARN of the role CodePipeline will use"
 }
 
-variable "cp_repo_name" {
+variable "cb_repo_path" {
     type        = string
-    description = "Name of the repository CodePipeline stage one will read from"
+    description = "Path to the GitHub repo Code Build will use"
 }
 
 variable "cp_repo_owner" {
@@ -47,7 +47,7 @@ variable "cp_repo_owner" {
     description = "Owner of the repository CodePipeline state one will read from"
 }
 
-variable "cp_repo_oauthtoken" {
+variable "ssm_github_token" {
     type        = string
-    description = "Oauth token for authorized access to repo (only GitLab supported at this time)"
+    description = "Name of the SSM parameter store that will contain your GitHub token (only GitLab supported at this time)"
 }
