@@ -23,6 +23,7 @@ resource "aws_codebuild_project" "codebuild" {
 
     service_role = var.cp_role_arn
 
+    #Source is GitHub
     source {
         type     = "GITHUB"
         location = var.github_path
@@ -32,10 +33,12 @@ resource "aws_codebuild_project" "codebuild" {
         }
     }
 
+    #No artefacts produced
     artifacts {
         type = "NO_ARTIFACTS"
     }
 
+    #Keep environment as generic as possible
     environment {
         compute_type = "BUILD_GENERAL1_SMALL"
         image        = "aws/codebuild/standard:2.0"
@@ -48,11 +51,13 @@ resource "aws_codepipeline" "codepipeline-master" {
     name     = "${var.project_code}-${var.cp_name}"
     role_arn = var.cp_role_arn
 
+    #Create artefact store as this is mandatory
     artifact_store {
         location = var.artefact_bucket_name
         type     = "S3"
     }
 
+    #First stage to listen to and pull from GitHub
     stage {
         name = "get_${var.github_name}"
 
@@ -73,6 +78,7 @@ resource "aws_codepipeline" "codepipeline-master" {
         }
     }
 
+    #Second stage to trigger codebuild which will actually perform the deployment
     stage {
         name = "deploy_${var.github_name}"
 
@@ -88,5 +94,10 @@ resource "aws_codepipeline" "codepipeline-master" {
                 ProjectName = aws_codebuild_project.codebuild.id
             }
         }
+    }
+
+    #Hack to get around the constant refreshing of OAuthToken
+    lifecycle {
+        ignore_changes = [stage[0].action[0].configuration]
     }
 }
