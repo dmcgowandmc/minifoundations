@@ -13,14 +13,20 @@ group_infra_name                   = "devops"
 group_infra_self_management_policy = true
 group_infra_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+    "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+    "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
+    "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
+    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
 ]
 
 #Inputs for Roles
 role_infra_name = "devops"
 role_infra_policy_arns = [
     "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/CloudWatchFullAccess"
+    "arn:aws:iam::aws:policy/CloudWatchFullAccess",
+    "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
+    "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
+    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
 ]
 role_infra_trusted_services = [
     "codebuild.amazonaws.com",
@@ -40,7 +46,8 @@ cp_bucket_name   = "artefacts"
 #Inputs for CodePipeline foundations
 cp_foundations_name        = "foundations"
 cp_foundations_desc        = "Foundations Pipeline"
-cb_foundations_repo_path   = "https://github.com/dmcgowandmc/minifoundations.git"
-cp_foundations_repo_owner  = "dmcgowandmc"
+github_foundations_name   = "minifoundations"
+github_foundations_path   = "https://github.com/dmcgowandmc/minifoundations.git"
+github_foundations_owner  = "dmcgowandmc"
 cb_foundations_name        = "foundations"
 cb_foundations_description = "Foundations CodeBuild"

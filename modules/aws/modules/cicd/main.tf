@@ -25,7 +25,7 @@ resource "aws_codebuild_project" "codebuild" {
 
     source {
         type     = "GITHUB"
-        location = var.cb_repo_path
+        location = var.github_path
         auth {
             type     = "OAUTH"
             resource = aws_codebuild_source_credential.github_auth.id
@@ -40,5 +40,53 @@ resource "aws_codebuild_project" "codebuild" {
         compute_type = "BUILD_GENERAL1_SMALL"
         image        = "aws/codebuild/standard:2.0"
         type         = "LINUX_CONTAINER"
+    }
+}
+
+#Create the CodePipeline for master branch
+resource "aws_codepipeline" "codepipeline-master" {
+    name     = "${var.project_code}-${var.cp_name}"
+    role_arn = var.cp_role_arn
+
+    artifact_store {
+        location = var.artefact_bucket_name
+        type     = "S3"
+    }
+
+    stage {
+        name = "get_${var.github_name}"
+
+        action {
+            name             = "get_${var.github_name}_from_gitlab_on_master"
+            category         = "Source"
+            owner            = "ThirdParty"
+            provider         = "GitHub"
+            version          = "1"
+            output_artifacts = [var.cp_name]
+
+            configuration = {
+                Owner      = var.github_owner
+                Repo       = var.github_name
+                Branch     = "master"
+                OAuthToken = data.aws_ssm_parameter.ssm_github_token.value
+            }
+        }
+    }
+
+    stage {
+        name = "deploy_${var.github_name}"
+
+        action {
+            name            = "deploy_${var.github_name}_according_to_buildspec.yml"
+            category        = "Build"
+            owner           = "AWS"
+            provider        = "CodeBuild"
+            version         = "1"
+            input_artifacts = [var.cp_name]
+
+            configuration = {
+                ProjectName = aws_codebuild_project.codebuild.id
+            }
+        }
     }
 }

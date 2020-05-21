@@ -71,8 +71,9 @@ module "cicd_foundations" {
     cp_name              = var.cp_foundations_name
     cp_description       = var.cp_foundations_desc
     cp_role_arn          = module.infra_role.role_arn
-    cb_repo_path         = var.cb_foundations_repo_path
-    cp_repo_owner        = var.cp_foundations_repo_owner
+    github_name         = var.github_foundations_name
+    github_path         = var.github_foundations_path
+    github_owner        = var.github_foundations_owner
     ssm_github_token     = var.ssm_github_token
     cb_name              = var.cb_foundations_name    
     cb_description       = var.cb_foundations_description

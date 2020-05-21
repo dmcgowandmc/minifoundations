@@ -96,14 +96,19 @@ variable "cp_foundations_desc" {
     description = "Description of the CodePipeline for foundations"
 }
 
-variable "cb_foundations_repo_path" {
+variable "github_foundations_name" {
     type        = string
-    description = "Path to the foundations GitHub repo Code Build will use"
+    description = "Name of the foundations GitHub repo"
 }
 
-variable "cp_foundations_repo_owner" {
+variable "github_foundations_path" {
     type        = string
-    description = "Owner of the foundations repository CodePipeline state one will read from"
+    description = "Path to the foundations GitHub repo"
+}
+
+variable "github_foundations_owner" {
+    type        = string
+    description = "Owner of the GitHub foundations repository"
 }
 
 variable "cb_foundations_name" {

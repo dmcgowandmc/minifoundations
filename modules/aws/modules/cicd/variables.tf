@@ -37,14 +37,19 @@ variable "cp_role_arn" {
     description = "The ARN of the role CodePipeline will use"
 }
 
-variable "cb_repo_path" {
+variable "github_name" {
     type        = string
-    description = "Path to the GitHub repo Code Build will use"
+    description = "Name of the GitHub repo"
 }
 
-variable "cp_repo_owner" {
+variable "github_path" {
     type        = string
-    description = "Owner of the repository CodePipeline state one will read from"
+    description = "Path to the GitHub repo"
+}
+
+variable "github_owner" {
+    type        = string
+    description = "Owner of the GitHub repository"
 }
 
 variable "ssm_github_token" {
