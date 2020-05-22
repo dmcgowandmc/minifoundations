@@ -2,24 +2,21 @@
 ## All variables for base code should reside here ##
 ####################################################
 
-variable "region" {
-    type        = string
-    description = "The region your resources will reside in"
-}
-
+#Global inputs
 variable "project_code" {
     type        = string
     description = "Three letter prefix to identity your resources. All resources will be prefixed with this code"
 }
 
+variable "region" {
+    type        = string
+    description = "The region your resources will reside in"
+}
+
+#Inputs for admin group
 variable "group_admin_name" {
     type        = string
     description = "Name of the the admin group"
-}
-
-variable "group_admin_self_management_policy" {
-    type        = bool
-    description = "Flag to indicate if members of this admin group our allowed to manage there passwords and 2FA"
 }
 
 variable "group_admin_policy_arns" {
@@ -28,14 +25,15 @@ variable "group_admin_policy_arns" {
     default     = []
 }
 
+variable "group_admin_self_management_policy" {
+    type        = bool
+    description = "Flag to indicate if members of this admin group our allowed to manage there passwords and 2FA"
+}
+
+#Inputs for infra group
 variable "group_infra_name" {
     type        = string
     description = "Name of the the infra group"
-}
-
-variable "group_infra_self_management_policy" {
-    type        = bool
-    description = "Flag to indicate if members of this infra group our allowed to manage there passwords and 2FA"
 }
 
 variable "group_infra_policy_arns" {
@@ -44,6 +42,12 @@ variable "group_infra_policy_arns" {
     default     = []
 }
 
+variable "group_infra_self_management_policy" {
+    type        = bool
+    description = "Flag to indicate if members of this infra group our allowed to manage there passwords and 2FA"
+}
+
+#Inputs for infra role
 variable "role_infra_name" {
     type        = string
     description = "Name of the infra role"
@@ -60,6 +64,7 @@ variable "role_infra_trusted_services" {
     description = "List of trusted services that can use this role"
 }
 
+#Inputs for app role
 variable "role_app_name" {
     type        = string
     description = "Name of the infra role"
@@ -76,24 +81,41 @@ variable "role_app_trusted_services" {
     description = "List of trusted services that can use this role"
 }
 
-variable "ssm_github_token" {
-    type        = string
-    description = "Name of the SSM parameter store that will contain your GitHub token (only GitLab supported at this time)"
-}
-
+#Inputs for common CICD components
 variable "cp_bucket_name" {
     type        = string
     description = "Name of s3 bucket for CodePipeline artefacts"
 }
 
+variable "github_owner" {
+    type        = string
+    description = "Owner of the GitHub foundations repository"
+}
+
+variable "ssm_github_token" {
+    type        = string
+    description = "Name of the SSM parameter store that will contain your GitHub token (only GitLab supported at this time)"
+}
+
+#Inputs for foundations CICD components
+variable "cb_foundations_description" {
+    type        = string
+    description = "Description of the foundations Code Build Project"
+}
+
+variable "cb_foundations_name" {
+    type        = string
+    description = "Name of the foundations Code Build Project"
+}
+
+variable "cp_foundations_description" {
+    type        = string
+    description = "Description of the CodePipeline for foundations"
+}
+
 variable "cp_foundations_name" {
     type        = string
     description = "Name of the CodePipeline for foundations"
-}
-
-variable "cp_foundations_desc" {
-    type        = string
-    description = "Description of the CodePipeline for foundations"
 }
 
 variable "github_foundations_name" {
@@ -104,19 +126,4 @@ variable "github_foundations_name" {
 variable "github_foundations_path" {
     type        = string
     description = "Path to the foundations GitHub repo"
-}
-
-variable "github_foundations_owner" {
-    type        = string
-    description = "Owner of the GitHub foundations repository"
-}
-
-variable "cb_foundations_name" {
-    type        = string
-    description = "Name of the foundations Code Build Project"
-}
-
-variable "cb_foundations_description" {
-    type        = string
-    description = "Description of the foundations Code Build Project"
 }

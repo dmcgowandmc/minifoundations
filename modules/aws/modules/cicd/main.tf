@@ -2,6 +2,11 @@
 ## All code for creating a CICD pipeline using code commit, build and pipeline defined here ##
 ##############################################################################################
 
+locals {
+    cb_resource_code = "cb"
+    cp_resource_code = "cp"
+}
+
 #Get secure token from ssm parameter store
 data "aws_ssm_parameter" "ssm_github_token" {
     name = var.ssm_github_token
@@ -16,7 +21,7 @@ resource "aws_codebuild_source_credential" "github_auth" {
 
 #Create the CodeBuild (since we are using terraform, we actually use code build for code deployment)
 resource "aws_codebuild_project" "codebuild" {
-    name           = "${var.project_code}-${var.cb_name}"
+    name           = "${var.project_code}-${local.cb_resource_code}-${var.cb_name}"
     description    = var.cb_description
     #build_timeout  = "5"
     #queued_timeout = "5"
@@ -48,7 +53,7 @@ resource "aws_codebuild_project" "codebuild" {
 
 #Create the CodePipeline for master branch
 resource "aws_codepipeline" "codepipeline-master" {
-    name     = "${var.project_code}-${var.cp_name}"
+    name     = "${var.project_code}-${local.cp_resource_code}-${var.cp_name}"
     role_arn = var.cp_role_arn
 
     #Create artefact store as this is mandatory

@@ -2,24 +2,21 @@
 ## All variables for the CICD pipeline using code commit, build and pipeline defined here ##
 ############################################################################################
 
+#Project code forms part of the naming convention
 variable "project_code" {
     type        = string
     description = "Three letter prefix to identity your resources. All resources will be prefixed with this code"
 }
 
+#All other vars for the module
 variable "artefact_bucket_name" {
     type        = string
     description = "Name of the bucket where artefacts will be stored"
 }
 
-variable "cp_name" {
+variable "cb_description" {
     type        = string
-    description = "Name of the Code Pipeline"
-}
-
-variable "cp_description" {
-    type        = string
-    description = "Description of the Code Pipeline"
+    description = "Description of the Code Build Project"
 }
 
 variable "cb_name" {
@@ -27,9 +24,14 @@ variable "cb_name" {
     description = "Name of the Code Build Project"
 }
 
-variable "cb_description" {
+variable "cp_description" {
     type        = string
-    description = "Description of the Code Build Project"
+    description = "Description of the Code Pipeline"
+}
+
+variable "cp_name" {
+    type        = string
+    description = "Name of the Code Pipeline"
 }
 
 variable "cp_role_arn" {
@@ -42,14 +44,14 @@ variable "github_name" {
     description = "Name of the GitHub repo"
 }
 
-variable "github_path" {
-    type        = string
-    description = "Path to the GitHub repo"
-}
-
 variable "github_owner" {
     type        = string
     description = "Owner of the GitHub repository"
+}
+
+variable "github_path" {
+    type        = string
+    description = "Path to the GitHub repo"
 }
 
 variable "ssm_github_token" {

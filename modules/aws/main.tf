@@ -66,15 +66,16 @@ module "cp_s3_bucket" {
 module "cicd_foundations" {
     source = "./modules/cicd"
 
-    project_code         = var.project_code
     artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
+    cb_description       = var.cb_foundations_description
+    cb_name              = var.cb_foundations_name
+    cp_description       = var.cp_foundations_description
     cp_name              = var.cp_foundations_name
-    cp_description       = var.cp_foundations_desc
-    cp_role_arn          = module.infra_role.role_arn
+    cp_role_arn          = module.infra_role.role_arn    
     github_name         = var.github_foundations_name
     github_path         = var.github_foundations_path
-    github_owner        = var.github_foundations_owner
+    github_owner        = var.github_owner
+    project_code         = var.project_code
     ssm_github_token     = var.ssm_github_token
-    cb_name              = var.cb_foundations_name    
-    cb_description       = var.cb_foundations_description
+    
 }

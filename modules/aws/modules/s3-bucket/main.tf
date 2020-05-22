@@ -6,7 +6,7 @@
 resource "random_id" "bucket_prefix" {
     keepers = {
         #We add variables where change forces a re-create
-        bucket_base64 = base64encode(var.bucket_name)
+        bucket_name_base64 = base64encode(var.bucket_name)
     }
 
     byte_length = 2
