@@ -23,19 +23,41 @@ Example:
 make prepare_terraform_environment PROJECT_CODE=tst REGION=ap-southeast-2
 ```
 
+### Create the SSM parameter store with GitHub token
+
+Instructions to actually create the GitHub token to be added
+
+Once you have the GitHub token, follow these steps to create an SSM parameter (sorry no automation yet)
+
+* Log into SSM Parameter Store
+```bash
+https://ap-southeast-2.console.aws.amazon.com/systems-manager/parameters?region=ap-southeast-2
+```
+* Click Create Parameter
+* Enter as follows
+  * Name : github_token
+  * Tier : Standard
+  * Type : SecureString
+  * KMS Key Source : my current account
+  * Value : your token
+
+### Create and Set IAM Credentials
+
+You need to create credentials for the bootstrap user that was created in previous step
+
+Log into AWS console with user that has permission to modify IAM credentials
+
+```bash
+https://console.aws.amazon.com/iam/home#/users/<project_code>-u-bootstrap?section=security_credentials)
+```
+
+Create access key and secret and keep in a safe place
+
 ### Deploy Environment
-
-Before running deployment for first time:
-
-* Ensure prepare_terraform_environment was run and IAM user was successfully created
-* Create IAM credentials for the IAM user
- * Log into AWS console with user that has permission to modify IAM credentials
- * Go to the security section of the newly created user in the console (E.G: https://console.aws.amazon.com/iam/home#/users/tst-foundations-deploy?section=security_credentials)
- * Create access key and secret and keep in a safe place
 
 Before running in a new terminal session
 
-* Set the credentials as follows:
+* Set the credentials from previous step as follows:
 
 ```bash
 export AWS_ACCESS_KEY_ID=<key>
