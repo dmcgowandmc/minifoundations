@@ -6,29 +6,29 @@
 module "admin_group" {
     source = "./modules/groups"
 
-    project_code           = var.project_code
     name                   = var.group_admin_name
-    self_management_policy = var.group_admin_self_management_policy
     policy_arns            = var.group_admin_policy_arns
+    project_code           = var.project_code
+    self_management_policy = var.group_admin_self_management_policy
 }
 
 #Create infra group
 module "infra_group" {
     source = "./modules/groups"
 
-    project_code           = var.project_code
     name                   = var.group_infra_name
-    self_management_policy = var.group_infra_self_management_policy
     policy_arns            = var.group_infra_policy_arns
+    project_code           = var.project_code
+    self_management_policy = var.group_infra_self_management_policy
 }
 
 #Create infra role (for use by CICD)
 module "infra_role" {
     source = "./modules/roles"
 
-    project_code     = var.project_code
     name             = var.role_infra_name
     policy_arns      = var.role_infra_policy_arns
+    project_code     = var.project_code
     trusted_services = var.role_infra_trusted_services
 }
 
@@ -36,9 +36,9 @@ module "infra_role" {
 module "app_role" {
     source = "./modules/roles"
 
-    project_code     = var.project_code
     name             = var.role_app_name
     policy_arns      = var.role_app_policy_arns
+    project_code     = var.project_code
     trusted_services = var.role_app_trusted_services
 }
 
@@ -46,8 +46,12 @@ module "app_role" {
 module "cp_s3_bucket" {
     source = "./modules/s3-bucket"
 
-    bucket_name = var.cp_bucket_name
-
+    block_public_acls                    = true
+    block_public_policy                  = true
+    project_code                         = var.project_code
+    bucket_name                          = var.cp_bucket_name
+    ignore_public_acls                   = true
+    restrict_public_buckets              = true
     server_side_encryption_configuration = {
         rule = {
             apply_server_side_encryption_by_default = {
@@ -55,11 +59,6 @@ module "cp_s3_bucket" {
             }
         }
     }
-
-    block_public_acls       = true
-    ignore_public_acls      = true
-    block_public_policy     = true
-    restrict_public_buckets = true
 }
 
 #Create CICD for the foundations repo
@@ -77,5 +76,4 @@ module "cicd_foundations" {
     github_owner        = var.github_owner
     project_code         = var.project_code
     ssm_github_token     = var.ssm_github_token
-    
 }
