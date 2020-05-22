@@ -16,3 +16,8 @@ terraform_init_plan:
 terraform_apply:
 	@echo "--- Apply for Terraform (Docker and Compose must be installed. The terraform_init_plan must be run first) ---"
 	@docker-compose run --rm terraform apply -var project_code=$(PROJECT_CODE) -var "region=$(REGION)" -auto-approve
+
+.PHONY: terraform_destory
+terraform_destroy:
+	@echo "--- Apply for Terraform (Docker and Compose must be installed. The terraform_init_plan must be run first) ---"
+	@docker-compose run --rm terraform destroy -var project_code=$(PROJECT_CODE) -var "region=$(REGION)" -auto-approve
