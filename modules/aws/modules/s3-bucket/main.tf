@@ -7,8 +7,8 @@ locals {
     role_resource_code = "r"
 }
 
-#Buckets name should not reveal there associated projects, so using a random prefix to prevent conflits with other buckets instead of project code
-resource "random_id" "bucket_prefix" {
+#Buckets name should not reveal there associated projects, so using a random postfix to prevent conflits with other buckets instead of project code
+resource "random_id" "bucket_postfix" {
     keepers = {
         #We add variables where change forces a re-create
         bucket_name_base64 = base64encode(var.bucket_name)
@@ -24,7 +24,7 @@ module "s3_bucket" {
 
     block_public_acls                    = var.block_public_acls
     block_public_policy                  = var.block_public_policy
-    bucket                               = "${random_id.bucket_prefix.hex}-${var.bucket_name}"
+    bucket                               = "${var.bucket_name}-${random_id.bucket_postfix.hex}"
     ignore_public_acls                   = var.ignore_public_acls
     restrict_public_buckets              = var.restrict_public_buckets
     server_side_encryption_configuration = var.server_side_encryption_configuration
