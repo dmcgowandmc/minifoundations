@@ -2,20 +2,16 @@
 ## All variables for creation of roles resides here ##
 ######################################################
 
+#Project code forms part of the naming convention
 variable "project_code" {
     type        = string
     description = "Three letter prefix to identity your resources. All resources will be prefixed with this code"
 }
 
+#All other vars for the module
 variable "name" {
     type        = string
     description = "Name of the role"
-}
-
-variable "users" {
-    type        = list(string)
-    description = "List of users to add to role. This can be ignored if desired"
-    default     = []
 }
 
 variable "policy_arns" {
@@ -27,4 +23,10 @@ variable "policy_arns" {
 variable "trusted_services" {
     type        = list(string)
     description = "List of trusted services that can assum this role. At least one value is required"
+}
+
+variable "users" {
+    type        = list(string)
+    description = "List of users to add to role. This can be ignored if desired"
+    default     = []
 }

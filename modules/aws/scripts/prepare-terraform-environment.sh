@@ -3,7 +3,7 @@
 # Simple shell script sets the minimum environment for AWS Mini Foundations. Once done, the terraform modules do the rest
 
 # Creates
-# * terrastate bucket with bublic access blocked, encryptin and versioning enabled
+# * terrastate bucket with bublic access blocked, encryption and versioning enabled
 # * IAM role with sufficient priviliedges to perform deployment tasks
 # * IAM user to assume IAM role in event deployment is been performed by resource outside of AWS
 
@@ -18,6 +18,7 @@
 PROJECT_CODE=$1
 REGION=$2
 ACCOUNT=$(aws sts get-caller-identity --query Account --output=text)
+POSTFIX=$(hexdump -n 2 -e '4/4 "%04X" 1 "\n"' /dev/random | tr '[:upper:]' '[:lower:]')
 
 # Verify project code
 printf "Verifying project code. Should be three letters max, lower case, no numbers"
@@ -48,23 +49,24 @@ printf "\xE2\x9C\x94 \n"
 # Make sure all public access is blocked, encryption enabled and versioning is on
 printf "Ensuring terrastate bucket exists"
 
-if [[ -z $(aws s3api list-buckets --query "Buckets[].Name" --output=text | grep $PROJECT_CODE-terrastate) ]]; then
+#Note, we are looking for the keyword of terrastate and ignoring the postfix as it will change on each run
+if [[ -z $(aws s3api list-buckets --query "Buckets[].Name" --output=text | grep terrastate) ]]; then
 
     aws s3api create-bucket \
-    --bucket $PROJECT_CODE-terrastate \
+    --bucket terrastate-$POSTFIX \
     --region $REGION \
     --create-bucket-configuration LocationConstraint=$REGION
 
     aws s3api put-public-access-block \
-    --bucket $PROJECT_CODE-terrastate \
+    --bucket terrastate-$POSTFIX \
     --public-access-block-configuration "BlockPublicAcls=true,IgnorePublicAcls=true,BlockPublicPolicy=true,RestrictPublicBuckets=true"
 
     aws s3api put-bucket-encryption \
-    --bucket $PROJECT_CODE-terrastate \
+    --bucket terrastate-$POSTFIX \
     --server-side-encryption-configuration '{"Rules": [{"ApplyServerSideEncryptionByDefault": {"SSEAlgorithm": "AES256"}}]}'
 
     aws s3api put-bucket-versioning \
-    --bucket $PROJECT_CODE-terrastate \
+    --bucket terrastate-$POSTFIX \
     --versioning-configuration Status=Enabled
 
     printf "\xE2\x9C\x94 \n"
@@ -75,11 +77,11 @@ fi
 #Create IAM user for external deployment access
 printf "Verify foundations deployment IAM user exists"
 
-if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-bootstrap-deploy) ]]; then
+if [[ -z $(aws iam list-users --query Users[].UserName --output=text | grep $PROJECT_CODE-u-bootstrap) ]]; then
 
     #Create a bootstrap IAM user so foundations can be deployed
     aws iam create-user \
-    --user-name $PROJECT_CODE-bootstrap-deploy
+    --user-name $PROJECT_CODE-u-bootstrap
 
     printf "\xE2\x9C\x94 \n WARNING: Script doesn't create policy to allow IAM user to assume IAM role yet. You must do this manually if needed"
 else
@@ -95,7 +97,7 @@ do
     printf ". \n Add $LINE"
 
     aws iam attach-user-policy \
-    --user-name $PROJECT_CODE-bootstrap-deploy \
+    --user-name $PROJECT_CODE-u-bootstrap \
     --policy-arn $LINE
 
     printf "\xE2\x9C\x94 \n"
