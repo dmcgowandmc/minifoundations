@@ -9,4 +9,5 @@ env:
 phases:
   build:
     commands:
+      - cd modules/aws
       - make terraform_init_plan STATEBUCKET=$statebucket PROJECT_CODE=$projectcode REGION=region
