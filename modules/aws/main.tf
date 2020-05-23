@@ -2,6 +2,25 @@
 ## All base code should reside here. Modules should be used where possible ##
 #############################################################################
 
+#Add global inputs to SSM. So they can be referenced by CodeBuild 
+resource "aws_ssm_parameter" "projectcode" {
+    name  = "projectcode"
+    type  = "String"
+    value = var.project_code
+}
+
+resource "aws_ssm_parameter" "region" {
+    name  = "region"
+    type  = "String"
+    value = var.region
+}
+
+resource "aws_ssm_parameter" "statebucket" {
+    name  = "statebucket"
+    type  = "String"
+    value = var.statebucket
+}
+
 #Create admin group
 module "admin_group" {
     source = "./modules/groups"

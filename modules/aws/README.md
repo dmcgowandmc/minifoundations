@@ -79,11 +79,11 @@ make terraform_init_plan STATEBUCKET=terrastate-1125 PROJECT_CODE=tst REGION=ap-
 To actually apply changes (terraform_init_plan must be run first)
 
 ```bash
-make terraform_apply PROJECT_CODE=<3 letter project code> REGION=<desired region>
+make terraform_init_apply PROJECT_CODE=<3 letter project code> REGION=<desired region>
 ```
 
 Example:
 
 ```bash
-make terraform_apply PROJECT_CODE=tst REGION=ap-southeast-2
+make terraform_init_apply PROJECT_CODE=tst REGION=ap-southeast-2
 ```

@@ -31,8 +31,9 @@ resource "aws_codebuild_project" "codebuild" {
 
     #Source is GitHub
     source {
-        type     = "GITHUB"
-        location = var.github_path
+        type      = "GITHUB"
+        location  = var.github_path
+        buildspec = "modules/aws/buildspec.yml"
         auth {
             type     = "OAUTH"
             resource = aws_codebuild_source_credential.github_auth.id

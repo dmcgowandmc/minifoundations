@@ -13,6 +13,11 @@ variable "region" {
     description = "The region your resources will reside in"
 }
 
+variable "statebucket" {
+    type        = string
+    description = "The name of the s3 bucket that stores the statefiles"
+}
+
 #Inputs for admin group
 variable "group_admin_name" {
     type        = string
