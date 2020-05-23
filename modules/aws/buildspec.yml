@@ -2,11 +2,11 @@ version: 0.2
 
 env:
   parameter-store:
-    key: "value"
-    key: "value"
+    projectcode: "projectcode"
+    region: "region"
+    statebucket: "statebucket"
             
 phases:
   build:
     commands:
-      - command
-      - command
+      - make terraform_init_plan STATEBUCKET=$statebucket PROJECT_CODE=$projectcode REGION=region
