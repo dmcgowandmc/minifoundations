@@ -17,7 +17,8 @@ group_infra_policy_arns = [
     "arn:aws:iam::aws:policy/CloudWatchFullAccess",
     "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
     "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
-    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
+    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
+    "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 ]
 group_infra_self_management_policy = true
 
@@ -29,7 +30,8 @@ role_infra_policy_arns = [
     "arn:aws:iam::aws:policy/CloudWatchFullAccess",
     "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
     "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
-    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess"
+    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
+    "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
 ]
 role_infra_trusted_services = [
     "codebuild.amazonaws.com",
