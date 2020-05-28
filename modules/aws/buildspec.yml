@@ -10,4 +10,5 @@ phases:
   build:
     commands:
       - cd modules/aws
+      - aws s3 ls
       - make terraform_init_plan STATEBUCKET=$statebucket PROJECT_CODE=$projectcode REGION=$region
