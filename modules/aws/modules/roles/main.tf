@@ -37,7 +37,10 @@ resource "aws_iam_policy" "assume-policy" {
         {
             "Sid": "stsAssumeRole",
             "Effect": "Allow",
-            "Action": "sts:AssumeRole",
+            "Action": [
+                "sts:AssumeRole",
+                "sts:GetCallerIdentity"
+            ],
             "Resource": "${module.iam_assumable_role.this_iam_role_arn}"
         }
     ]
