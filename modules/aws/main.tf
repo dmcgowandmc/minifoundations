@@ -21,6 +21,12 @@ resource "aws_ssm_parameter" "statebucket" {
     value = var.statebucket
 }
 
+resource "aws_ssm_parameter" "infra_role_arn" {
+    name  = "infrarolearn"
+    type  = "String"
+    value = module.infra_role.role_arn
+}
+
 #Create admin group
 module "admin_group" {
     source = "./modules/groups"
