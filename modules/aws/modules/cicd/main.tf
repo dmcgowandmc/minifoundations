@@ -56,7 +56,7 @@ resource "aws_codebuild_project" "codebuild" {
 
 #Create the CodePipeline for master branch
 resource "aws_codepipeline" "codepipeline-master" {
-    name     = "${var.project_code}-${local.cp_resource_code}-${var.cp_name}"
+    name     = "${var.project_code}-${local.cp_resource_code}-${var.cp_name}-master"
     role_arn = var.cp_role_arn
 
     #Create artefact store as this is mandatory
@@ -105,6 +105,64 @@ resource "aws_codepipeline" "codepipeline-master" {
     }
 
     #Hack to get around the constant refreshing of OAuthToken
+    #NOTE: THis means if you change the token, you need to delete the action manually to force terreform to recreate
+    lifecycle {
+        ignore_changes = [stage[0].action[0].configuration]
+    }
+}
+
+#Create the CodePipeline for production branch
+resource "aws_codepipeline" "codepipeline-production" {
+    name     = "${var.project_code}-${local.cp_resource_code}-${var.cp_name}-production"
+    role_arn = var.cp_role_arn
+
+    #Create artefact store as this is mandatory
+    artifact_store {
+        location = var.artefact_bucket_name
+        type     = "S3"
+    }
+
+    #First stage to listen to and pull from GitHub
+    stage {
+        name = "get_${var.github_name}"
+
+        action {
+            name             = "get_${var.github_name}_from_gitlab_on_production"
+            category         = "Source"
+            owner            = "ThirdParty"
+            provider         = "GitHub"
+            version          = "1"
+            output_artifacts = [var.cp_name]
+
+            configuration = {
+                Owner      = var.github_owner
+                Repo       = var.github_name
+                Branch     = "production"
+                OAuthToken = data.aws_ssm_parameter.ssm_github_token.value
+            }
+        }
+    }
+
+    #Second stage to trigger codebuild which will actually perform the deployment
+    stage {
+        name = "deploy_${var.github_name}"
+
+        action {
+            name            = "deploy_${var.github_name}_according_to_buildspec.yml"
+            category        = "Build"
+            owner           = "AWS"
+            provider        = "CodeBuild"
+            version         = "1"
+            input_artifacts = [var.cp_name]
+
+            configuration = {
+                ProjectName = aws_codebuild_project.codebuild.id
+            }
+        }
+    }
+
+    #Hack to get around the constant refreshing of OAuthToken
+    #NOTE: THis means if you change the token, you need to delete the action manually to force terreform to recreate
     lifecycle {
         ignore_changes = [stage[0].action[0].configuration]
     }
