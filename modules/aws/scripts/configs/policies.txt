@@ -6,3 +6,4 @@ arn:aws:iam::aws:policy/AWSCodePipelineFullAccess
 arn:aws:iam::aws:policy/AmazonSSMFullAccess
 arn:aws:iam::aws:policy/AWSCloudTrailFullAccess
 arn:aws:iam::aws:policy/AmazonVPCFullAccess
+arn:aws:iam::aws:policy/AmazonRDSFullAccess
