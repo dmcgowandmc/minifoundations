@@ -22,7 +22,8 @@ group_infra_policy_arns = [
     "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
     "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
     "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
-    "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess"
+    "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
+    "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
 ]
 group_infra_self_management_policy = true
 
