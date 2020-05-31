@@ -2,6 +2,9 @@
 ## If running this directly and not using as a module, values are defined here ##
 #################################################################################
 
+#Inputs for CloudTrail long term storage
+ct_bucket_name = "platformtrail"
+
 #Inputs for admin group
 group_admin_name        = "administrators"
 group_admin_policy_arns = [
@@ -18,7 +21,8 @@ group_infra_policy_arns = [
     "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
     "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
     "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess"
+    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
+    "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess"
 ]
 group_infra_self_management_policy = true
 
@@ -32,7 +36,8 @@ role_infra_policy_arns = [
     "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
     "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
     "arn:aws:iam::aws:policy/CloudWatchFullAccess",
-    "arn:aws:iam::aws:policy/IAMFullAccess"
+    "arn:aws:iam::aws:policy/IAMFullAccess",
+    "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess"
 ]
 role_infra_trusted_services = [
     "codebuild.amazonaws.com",
