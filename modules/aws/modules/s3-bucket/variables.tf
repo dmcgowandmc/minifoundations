@@ -32,6 +32,12 @@ variable "ignore_public_acls" {
     default     = false
 }
 
+variable "policy" {
+    description = "Bucket policy JSON document"
+    type        = string
+    default     = null
+}
+
 variable "restrict_public_buckets" {
     description = "Whether Amazon S3 should restrict public bucket policies for this bucket."
     type        = bool

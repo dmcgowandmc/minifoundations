@@ -4,7 +4,7 @@
 
 locals {
     #Resource code NOTE: Resource and project code will only be used for tags
-    role_resource_code = "r"
+    role_resource_code = "s3"
 }
 
 #Buckets name should not reveal there associated projects, so using a random postfix to prevent conflits with other buckets instead of project code
@@ -26,6 +26,7 @@ module "s3_bucket" {
     block_public_policy                  = var.block_public_policy
     bucket                               = "${var.bucket_name}-${random_id.bucket_postfix.hex}"
     ignore_public_acls                   = var.ignore_public_acls
+    policy                               = var.policy
     restrict_public_buckets              = var.restrict_public_buckets
     server_side_encryption_configuration = var.server_side_encryption_configuration
 }
