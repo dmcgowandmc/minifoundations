@@ -55,6 +55,11 @@ role_app_trusted_services = [
     "codebuild.amazonaws.com"
 ]
 
+#Inputs for foundations VPC
+vpc_foundations_azs  = ["ap-southeast-2a", "ap-southeast-2b"]
+vpc_foundations_cidr = "10.0.0.0/19"
+vpc_foundations_name = "foundations"
+
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"
 github_owner     = "dmcgowandmc"

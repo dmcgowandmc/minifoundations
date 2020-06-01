@@ -134,6 +134,16 @@ module "app_role" {
     trusted_services = var.role_app_trusted_services
 }
 
+#Create VPC for the platform
+module "platform_vpc" {
+    source = "./modules/vpc"
+
+    azs          = var.vpc_foundations_azs
+    cidr         = var.vpc_foundations_cidr
+    name         = var.vpc_foundations_name
+    project_code = var.project_code
+}
+
 #Create storage bucket for CodePipeline
 module "cp_s3_bucket" {
     source = "./modules/s3-bucket"

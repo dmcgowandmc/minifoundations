@@ -92,6 +92,22 @@ variable "role_app_trusted_services" {
     description = "List of trusted services that can use this role"
 }
 
+#Inputs for foundations VPC
+variable "vpc_foundations_azs" {
+    type        = list(string)
+    description = "List of availability zones for foundations VPC to apply across (WARNING: Number of public / private / data subnets must be equal to or greater than azs list)"
+}
+
+variable "vpc_foundations_cidr" {
+    type        = string
+    description = "CIDR Range of the foundations VPC"
+}
+
+variable "vpc_foundations_name" {
+    type        = string
+    description = "Name of the foundations VPC and it's supporting components"
+}
+
 #Inputs for common CICD components
 variable "cp_bucket_name" {
     type        = string
