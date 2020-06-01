@@ -36,9 +36,11 @@ Instructions to actually create the GitHub token to be added
 Once you have the GitHub token, follow these steps to create an SSM parameter (sorry no automation yet)
 
 * Log into SSM Parameter Store
+
 ```bash
 https://ap-southeast-2.console.aws.amazon.com/systems-manager/parameters?region=ap-southeast-2
 ```
+
 * Click Create Parameter
 * Enter as follows
   * Name : github_token
