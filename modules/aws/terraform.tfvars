@@ -56,9 +56,12 @@ role_app_trusted_services = [
 ]
 
 #Inputs for foundations VPC
-vpc_foundations_azs  = ["ap-southeast-2a", "ap-southeast-2b"]
-vpc_foundations_cidr = "10.0.0.0/19"
-vpc_foundations_name = "foundations"
+vpc_foundations_azs              = ["ap-southeast-2a"]
+vpc_foundations_cidr             = "10.0.0.0/19"
+vpc_foundations_database_subnets = ["10.0.8.0/23"]
+vpc_foundations_private_subnets  = ["10.0.16.0/22"]
+vpc_foundations_public_subnets   = ["10.0.0.0/23"]
+vpc_foundations_name             = "foundations"
 
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"

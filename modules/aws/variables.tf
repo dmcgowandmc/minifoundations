@@ -103,6 +103,21 @@ variable "vpc_foundations_cidr" {
     description = "CIDR Range of the foundations VPC"
 }
 
+variable "vpc_foundations_database_subnets" {
+    type        = list(string)
+    description = "List of database subnet CIDRs for foundations (WARNING: Must be equal to or greated than azs)"
+}
+
+variable "vpc_foundations_private_subnets" {
+    type        = list(string)
+    description = "List of private subnet CIDRs for foundations (WARNING: Must be equal to or greated than azs)"
+}
+
+variable "vpc_foundations_public_subnets" {
+    type        = list(string)
+    description = "List of public subnet CIDRs for foundations (WARNING: Must be equal to or greated than azs)"
+}
+
 variable "vpc_foundations_name" {
     type        = string
     description = "Name of the foundations VPC and it's supporting components"

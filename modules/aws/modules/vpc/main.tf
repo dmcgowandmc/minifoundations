@@ -19,9 +19,9 @@ module "vpc" {
     #AZ and Subnet Configuration
     azs              = var.azs
     cidr             = var.cidr
-    database_subnets = ["10.0.8.0/23", "10.0.10.0/23"]
-    private_subnets  = ["10.0.16.0/22", "10.0.20.0/22"]
-    public_subnets   = ["10.0.0.0/23", "10.0.2.0/23"]
+    database_subnets = var.database_subnets
+    private_subnets  = var.private_subnets
+    public_subnets   = var.public_subnets
 
     #Disable, we will create the database subnet group explictly so all data resources can reside in database subnets
     create_database_subnet_group = false

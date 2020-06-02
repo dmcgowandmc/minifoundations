@@ -138,10 +138,13 @@ module "app_role" {
 module "platform_vpc" {
     source = "./modules/vpc"
 
-    azs          = var.vpc_foundations_azs
-    cidr         = var.vpc_foundations_cidr
-    name         = var.vpc_foundations_name
-    project_code = var.project_code
+    azs              = var.vpc_foundations_azs
+    cidr             = var.vpc_foundations_cidr
+    database_subnets = var.vpc_foundations_database_subnets
+    private_subnets  = var.vpc_foundations_private_subnets
+    public_subnets   = var.vpc_foundations_public_subnets
+    name             = var.vpc_foundations_name
+    project_code     = var.project_code
 }
 
 #Create storage bucket for CodePipeline

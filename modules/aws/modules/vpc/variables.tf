@@ -19,6 +19,21 @@ variable "cidr" {
     description = "CIDR Range of the VPC"
 }
 
+variable "database_subnets" {
+    type        = list(string)
+    description = "List of database subnet CIDRs (WARNING: Must be equal to or greated than azs)"
+}
+
+variable "private_subnets" {
+    type        = list(string)
+    description = "List of private subnet CIDRs (WARNING: Must be equal to or greated than azs)"
+}
+
+variable "public_subnets" {
+    type        = list(string)
+    description = "List of public subnet CIDRs (WARNING: Must be equal to or greated than azs)"
+}
+
 variable "name" {
     type        = string
     description = "Name of the VPC and it's supporting components"
