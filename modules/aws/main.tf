@@ -147,6 +147,14 @@ module "platform_vpc" {
     project_code     = var.project_code
 }
 
+#Create public production Route 53 zone
+module "pub_prod_route53" {
+    source = "./modules/route53"
+
+    project_code = var.project_code
+    zone_fqdn    = "test.prod.click"
+}
+
 #Create storage bucket for CodePipeline
 module "cp_s3_bucket" {
     source = "./modules/s3-bucket"
