@@ -16,17 +16,8 @@ group_admin_self_management_policy = true
 #Inputs for infra group
 group_infra_name        = "devops"
 group_infra_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
-    "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
-    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
-    "arn:aws:iam::aws:policy/CloudWatchFullAccess",
     "arn:aws:iam::aws:policy/IAMFullAccess",
-    "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
-    "arn:aws:iam::aws:policy/AmazonVPCFullAccess",
-    "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
-    "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
+    "arn:aws:iam::aws:policy/PowerUserAccess"
 ]
 group_infra_self_management_policy = true
 
@@ -34,17 +25,8 @@ group_infra_self_management_policy = true
 #Inputs for infra role
 role_infra_name        = "devops"
 role_infra_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
-    "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
-    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
-    "arn:aws:iam::aws:policy/CloudWatchFullAccess",
     "arn:aws:iam::aws:policy/IAMFullAccess",
-    "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
-    "arn:aws:iam::aws:policy/AmazonVPCFullAccess",
-    "arn:aws:iam::aws:policy/AmazonRDSFullAccess",
-    "arn:aws:iam::aws:policy/AmazonRoute53FullAccess"
+    "arn:aws:iam::aws:policy/PowerUserAccess"
 ]
 role_infra_trusted_services = [
     "codebuild.amazonaws.com",
