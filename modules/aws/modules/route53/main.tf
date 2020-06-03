@@ -22,3 +22,16 @@ resource "aws_route53_zone" "private" {
     force_destroy = var.force_destory
     name          = var.zone_fqdn
 }
+
+#Where child zone maps are provided, add the child zone name and its corresponding NS records
+#This will allow this zone to also resolve against the zone where the NS records were provided
+resource "aws_route53_record" "dev-ns" {
+    for_each = var.child_zone_map
+
+    zone_id = var.vpc_id == "" ? aws_route53_zone.public[0].zone_id : aws_route53_zone.private[0].zone_id
+    name    = each.key
+    type    = "NS"
+    ttl     = "30"
+
+    records = each.value
+}
