@@ -123,6 +123,17 @@ variable "vpc_foundations_name" {
     description = "Name of the foundations VPC and it's supporting components"
 }
 
+#Inputs for Route 53
+variable "prod_zone_fqdn" {
+    type        = string
+    description = "Fully qualified domain name for the production zone"
+}
+
+variable "uat_zone_fqdn" {
+    type        = string
+    description = "Fully qualified domain name for the UAT zone"
+}
+
 #Inputs for common CICD components
 variable "cp_bucket_name" {
     type        = string

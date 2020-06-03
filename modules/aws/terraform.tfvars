@@ -48,6 +48,10 @@ vpc_foundations_private_subnets  = ["10.0.16.0/22"]
 vpc_foundations_public_subnets   = ["10.0.0.0/23"]
 vpc_foundations_name             = "foundations"
 
+#Inputs for Route 53
+prod_zone_fqdn = "test.click"
+uat_zone_fqdn  = "uat.test.click"
+
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"
 github_owner     = "dmcgowandmc"
