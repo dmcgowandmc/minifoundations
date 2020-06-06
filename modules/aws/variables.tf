@@ -10,7 +10,7 @@ variable "project_code" {
 
 variable "region" {
     type        = string
-    description = "The region your resources will reside in"
+    description = "The default region your resources will reside in"
 }
 
 variable "statebucket" {
@@ -121,6 +121,17 @@ variable "vpc_foundations_public_subnets" {
 variable "vpc_foundations_name" {
     type        = string
     description = "Name of the foundations VPC and it's supporting components"
+}
+
+#Inputs for Route 53
+variable "prod_zone_fqdn" {
+    type        = string
+    description = "Fully qualified domain name for the production zone"
+}
+
+variable "uat_zone_fqdn" {
+    type        = string
+    description = "Fully qualified domain name for the UAT zone"
 }
 
 #Inputs for common CICD components

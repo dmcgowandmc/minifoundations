@@ -135,7 +135,7 @@ module "app_role" {
 }
 
 #Create VPC for the platform
-module "platform_vpc" {
+module "vpc_foundations" {
     source = "./modules/vpc"
 
     azs              = var.vpc_foundations_azs
@@ -145,6 +145,25 @@ module "platform_vpc" {
     public_subnets   = var.vpc_foundations_public_subnets
     name             = var.vpc_foundations_name
     project_code     = var.project_code
+}
+
+#Create public production Route 53 zone
+module "pub_prod_route53" {
+    source = "./modules/route53"
+
+    child_zone_map = {
+        "${var.uat_zone_fqdn}" = module.uat_prod_route53.name_servers
+    }
+    project_code   = var.project_code
+    zone_fqdn      = var.prod_zone_fqdn
+}
+
+#Create public UAT Route 53 zone
+module "uat_prod_route53" {
+    source = "./modules/route53"
+
+    project_code = var.project_code
+    zone_fqdn    = var.uat_zone_fqdn
 }
 
 #Create storage bucket for CodePipeline

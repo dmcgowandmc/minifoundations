@@ -16,15 +16,8 @@ group_admin_self_management_policy = true
 #Inputs for infra group
 group_infra_name        = "devops"
 group_infra_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/CloudWatchFullAccess",
-    "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
-    "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
-    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
-    "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
-    "arn:aws:iam::aws:policy/AmazonVPCFullAccess",
-    "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+    "arn:aws:iam::aws:policy/IAMFullAccess",
+    "arn:aws:iam::aws:policy/PowerUserAccess"
 ]
 group_infra_self_management_policy = true
 
@@ -32,16 +25,8 @@ group_infra_self_management_policy = true
 #Inputs for infra role
 role_infra_name        = "devops"
 role_infra_policy_arns = [
-    "arn:aws:iam::aws:policy/AmazonS3FullAccess",
-    "arn:aws:iam::aws:policy/AWSCodeCommitFullAccess",
-    "arn:aws:iam::aws:policy/AWSCodeBuildAdminAccess",
-    "arn:aws:iam::aws:policy/AWSCodePipelineFullAccess",
-    "arn:aws:iam::aws:policy/AmazonSSMFullAccess",
-    "arn:aws:iam::aws:policy/CloudWatchFullAccess",
     "arn:aws:iam::aws:policy/IAMFullAccess",
-    "arn:aws:iam::aws:policy/AWSCloudTrailFullAccess",
-    "arn:aws:iam::aws:policy/AmazonVPCFullAccess",
-    "arn:aws:iam::aws:policy/AmazonRDSFullAccess"
+    "arn:aws:iam::aws:policy/PowerUserAccess"
 ]
 role_infra_trusted_services = [
     "codebuild.amazonaws.com",
@@ -62,6 +47,10 @@ vpc_foundations_database_subnets = ["10.0.8.0/23"]
 vpc_foundations_private_subnets  = ["10.0.16.0/22"]
 vpc_foundations_public_subnets   = ["10.0.0.0/23"]
 vpc_foundations_name             = "foundations"
+
+#Inputs for Route 53
+prod_zone_fqdn = "test.click"
+uat_zone_fqdn  = "uat.test.click"
 
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"
