@@ -135,7 +135,7 @@ module "app_role" {
 }
 
 #Create VPC for the platform
-module "platform_vpc" {
+module "vpc_foundations" {
     source = "./modules/vpc"
 
     azs              = var.vpc_foundations_azs
