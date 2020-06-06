@@ -10,7 +10,7 @@ variable "project_code" {
 
 variable "region" {
     type        = string
-    description = "The region your resources will reside in"
+    description = "The default region your resources will reside in"
 }
 
 variable "statebucket" {
