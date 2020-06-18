@@ -180,3 +180,34 @@ variable "github_foundations_path" {
     type        = string
     description = "Path to the foundations GitHub repo"
 }
+
+#Inputs for Webstack CICD Components
+variable "cb_webstack_description" {
+    type        = string
+    description = "Description of the webstack Code Build Project"
+}
+
+variable "cb_webstack_name" {
+    type        = string
+    description = "Name of the webstack Code Build Project"
+}
+
+variable "cp_webstack_description" {
+    type        = string
+    description = "Description of the CodePipeline for webstack"
+}
+
+variable "cp_webstack_name" {
+    type        = string
+    description = "Name of the CodePipeline for webstack"
+}
+
+variable "github_webstack_name" {
+    type        = string
+    description = "Name of the webstack GitHub repo"
+}
+
+variable "github_webstack_path" {
+    type        = string
+    description = "Path to the webstack GitHub repo"
+}
