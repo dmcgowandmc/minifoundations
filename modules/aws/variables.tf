@@ -151,6 +151,11 @@ variable "ssm_github_token" {
 }
 
 #Inputs for foundations CICD components
+variable "cb_foundations_buildspec_path" {
+    type        = string
+    description = "Path to buildspec file as it's typically non standard for the foundations"
+}
+
 variable "cb_foundations_description" {
     type        = string
     description = "Description of the foundations Code Build Project"
