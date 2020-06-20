@@ -14,6 +14,12 @@ variable "artefact_bucket_name" {
     description = "Name of the bucket where artefacts will be stored"
 }
 
+variable "cb_buildspec_path" {
+    type        = string
+    description = "Path to the buildspec file where not in default root location"
+    default     = ""
+}
+
 variable "cb_description" {
     type        = string
     description = "Description of the Code Build Project"
