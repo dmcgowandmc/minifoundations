@@ -14,10 +14,7 @@ For AWS at the moment but eventually want to support the big three (AWS, GCP, Az
 
 Foundations written as IAC in Terraform and deployable via commandline or CICD tool. Outputs can be leveraged for you to build your own infrastructure on top using terraform
 
-Some features of the foundations:
-
-* Best practice network architecture
-* Best practice security
+For detail on features, see each individual module as each cloud provider is different
 
 ## How to use
 

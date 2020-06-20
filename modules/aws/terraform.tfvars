@@ -64,3 +64,11 @@ cp_foundations_description = "Foundations Pipeline"
 cp_foundations_name        = "foundations"
 github_foundations_name    = "minifoundations"
 github_foundations_path    = "https://github.com/dmcgowandmc/minifoundations.git"
+
+#Inputs for all webstack CICD components
+cb_webstack_description = "Webstack CodeBuild"
+cb_webstack_name        = "webstack"
+cp_webstack_description = "Webstack Pipeline"
+cp_webstack_name        = "webstack"
+github_webstack_name    = "webstack"
+github_webstack_path    = "https://github.com/dmcgowandmc/webstack.git"
