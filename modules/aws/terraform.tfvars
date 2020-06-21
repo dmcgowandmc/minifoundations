@@ -58,8 +58,8 @@ github_owner     = "dmcgowandmc"
 ssm_github_token = "github_token"
 
 #Inputs for all foundations CICD components
-cb_foundations_description    = "Foundations CodeBuild"
 cb_foundations_buildspec_path = "modules/aws/"
+cb_foundations_description    = "Foundations CodeBuild"
 cb_foundations_name           = "foundations"
 cp_foundations_description    = "Foundations Pipeline"
 cp_foundations_name           = "foundations"
