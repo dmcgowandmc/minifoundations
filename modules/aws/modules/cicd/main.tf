@@ -4,6 +4,7 @@
 
 #NOTE: Not happy with this design, but attempting to work around CodeBuild / CodePipelines rigid and inflexible model to implement GitOps
 #For foundations, GitOps consists of master and production but since there is no concept of environments, master branch produces a plan, and production branch actually results in deployment
+#For everything else, master is generally a UAT deployment, and production is a production deployment
 
 locals {
     #Resource codes
