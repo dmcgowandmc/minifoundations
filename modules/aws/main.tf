@@ -190,6 +190,7 @@ module "cicd_foundations" {
     source = "./modules/cicd"
 
     artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
+    cb_buildspec_path    = var.cb_foundations_buildspec_path
     cb_description       = var.cb_foundations_description
     cb_name              = var.cb_foundations_name
     cp_description       = var.cp_foundations_description

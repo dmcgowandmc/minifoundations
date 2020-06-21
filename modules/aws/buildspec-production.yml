@@ -17,6 +17,4 @@ phases:
       - export AWS_ACCESS_KEY_ID=$(echo "${THIS_ROLE}" | jq -r '.Credentials.AccessKeyId')
       - export AWS_SECRET_ACCESS_KEY=$(echo "${THIS_ROLE}" | jq -r '.Credentials.SecretAccessKey')
       - export AWS_SESSION_TOKEN=$(echo "${THIS_ROLE}" | jq -r '.Credentials.SessionToken')
-      - echo $CODEBUILD_SOURCE_VERSION
-      - echo $CODEBUILD_WEBHOOK_BASE_REF
       - make terraform_init_apply STATEBUCKET=$statebucket PROJECT_CODE=$projectcode REGION=$region

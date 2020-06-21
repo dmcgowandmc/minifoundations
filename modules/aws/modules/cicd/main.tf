@@ -36,7 +36,7 @@ resource "aws_codebuild_project" "codebuild-master" {
     source {
         type      = "GITHUB"
         location  = var.github_path
-        buildspec = "modules/aws/buildspec-master.yml"
+        buildspec = "${var.cb_buildspec_path}buildspec-master.yml"
         auth {
             type     = "OAUTH"
             resource = aws_codebuild_source_credential.github_auth.id
@@ -72,7 +72,7 @@ resource "aws_codebuild_project" "codebuild-production" {
     source {
         type      = "GITHUB"
         location  = var.github_path
-        buildspec = "modules/aws/buildspec-production.yml"
+        buildspec = "${var.cb_buildspec_path}buildspec-production.yml"
         auth {
             type     = "OAUTH"
             resource = aws_codebuild_source_credential.github_auth.id

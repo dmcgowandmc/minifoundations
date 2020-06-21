@@ -200,7 +200,7 @@ make terraform_init_apply PROJECT_CODE=tst REGION=ap-southeast-2
 
 For ongoing maintenance and updates, you can modify codebase locally and use the deployment method above to apply changes, however it is strongly recommended to regularly commit changes to GitHub and use the following branch strategy so AWS's CICD tools can also apply changes and ensure code base aligns with GitHub
 
-### feature/<your-feature>
+### feature/\<your-feature\>
 
 When committing changes, strongly recommend creating a feature branch as follows:
 
