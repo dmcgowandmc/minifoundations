@@ -50,40 +50,19 @@ module "ct_s3_bucket" {
 }
 
 #Create a bucket policy for long term storage of CloudTrail events. Basically we want to prevent accidental or intentional deletion of data
+data "template_file" "ct_s3_bucket_policy_json" {
+    template = file("policies/ct-s3-bucket-policy.json.tpl")
+
+    vars = {
+        s3_bucket_arn = module.ct_s3_bucket.s3_bucket_arn
+        account_id    = data.aws_caller_identity.this.account_id
+    }
+}
+
 resource "aws_s3_bucket_policy" "ct_s3_bucket_policy" {
     bucket = module.ct_s3_bucket.s3_bucket_id
 
-    policy = <<POLICY
-{
-    "Id": "CTS3BucketPolicy",
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "AWSCloudTrailAclCheck",
-            "Effect": "Allow",
-            "Principal": {
-                "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:GetBucketAcl",
-            "Resource": "${module.ct_s3_bucket.s3_bucket_arn}"
-        },
-        {
-            "Sid": "AWSCloudTrailWrite",
-            "Effect": "Allow",
-            "Principal": {
-              "Service": "cloudtrail.amazonaws.com"
-            },
-            "Action": "s3:PutObject",
-            "Resource": "${module.ct_s3_bucket.s3_bucket_arn}/logs-management/AWSLogs/${data.aws_caller_identity.this.account_id}/*",
-            "Condition": {
-                "StringEquals": {
-                    "s3:x-amz-acl": "bucket-owner-full-control"
-                }
-            }
-        }
-    ]
-}
-POLICY
+    policy = data.template_file.ct_s3_bucket_policy_json.rendered
 }
 
 #Create the management level cloud trail (limited benefit turning this into a module for now)
