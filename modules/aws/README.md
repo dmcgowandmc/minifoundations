@@ -85,7 +85,7 @@ Create access key and secret and keep in a safe place
 
 ### Prepare Configuration
 
-If you are cloning this into your own repo, you will need to define a terraform.tfvars file to define the bulk of your settings. Use the template below for your file. Special mention has been made to parameters you really should customize. The rest can be left as default unless there is a specific need to change
+If you are cloning this into your own repo, you will need to define a terraform.tfvars file to define the bulk of your settings. Use the template below for your file. Look for keyword of CHANGE-REQUIRED for values that must be customized to your needs. Other values can be adjusted as if desired, but can generally be left as is and only adjusted for advanced setups
 
 ```bash
 #Inputs for CloudTrail long term storage
@@ -127,6 +127,7 @@ role_app_trusted_services = [
 ]
 
 #Inputs for foundations VPC
+#CHANGE-RECOMMENDED - CIDR range should be customized to your needs unless your absolutely sure this will run in isolation and not integrate with any other networks
 #NOTE: See spreadsheet (to be attached) for allocation of additional CIDRs where additional AZ's are desired. Default uses one AZ to keep costs down but strongly recommend using a minimum of two if possible
 vpc_foundations_azs              = ["ap-southeast-2a"]
 vpc_foundations_cidr             = "10.0.0.0/19"
@@ -136,21 +137,23 @@ vpc_foundations_public_subnets   = ["10.0.0.0/23"]
 vpc_foundations_name             = "foundations"
 
 #Inputs for Route 53
-prod_zone_fqdn = "test.click"
-uat_zone_fqdn  = "uat.test.click"
+#CHANGE-REQUIRED - Both Prod and UAT zones must align to a FQDN that you have full control over
+prod_zone_fqdn = "tst.dmcgowan.click"
+uat_zone_fqdn  = "uat.tst.dmcgowan.click"
 
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"
-github_owner     = "dmcgowandmc"
+github_owner     = "dmcgowandmc" #CHANGE-REQUIRED - This value must be changed to the owner of the GitHub repo where your codebase resides
 ssm_github_token = "github_token"
 
 #Inputs for all foundations CICD components
-cb_foundations_description = "Foundations CodeBuild"
-cb_foundations_name        = "foundations"
-cp_foundations_description = "Foundations Pipeline"
-cp_foundations_name        = "foundations"
-github_foundations_name    = "minifoundations"
-github_foundations_path    = "https://github.com/dmcgowandmc/minifoundations.git"
+cb_foundations_buildspec_path = "modules/aws/"
+cb_foundations_description    = "Foundations CodeBuild"
+cb_foundations_name           = "foundations"
+cp_foundations_description    = "Foundations Pipeline"
+cp_foundations_name           = "foundations"
+github_foundations_name       = "minifoundations"
+github_foundations_path       = "https://github.com/dmcgowandmc/minifoundations.git" #CHANGE-REQUIRED - This value must be changed to path of the GitHub repo where your codebase resides
 
 #Inputs for all webstack CICD components
 cb_webstack_description = "Webstack CodeBuild"
@@ -158,7 +161,7 @@ cb_webstack_name        = "webstack"
 cp_webstack_description = "Webstack Pipeline"
 cp_webstack_name        = "webstack"
 github_webstack_name    = "webstack"
-github_webstack_path    = "https://github.com/dmcgowandmc/webstack.git"
+github_webstack_path    = "https://github.com/dmcgowandmc/webstack.git" #CHANGE-REQUIRED - This value must be changed to the owner of the GitHub repo where your codebase resides
 ```
 
 ### Deploy Environment

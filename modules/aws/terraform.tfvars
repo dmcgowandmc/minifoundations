@@ -49,8 +49,8 @@ vpc_foundations_public_subnets   = ["10.0.0.0/23"]
 vpc_foundations_name             = "foundations"
 
 #Inputs for Route 53
-prod_zone_fqdn = "test.click"
-uat_zone_fqdn  = "uat.test.click"
+prod_zone_fqdn = "tst.dmcgowan.click"
+uat_zone_fqdn  = "uat.tst.dmcgowan.click"
 
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"
@@ -58,8 +58,8 @@ github_owner     = "dmcgowandmc"
 ssm_github_token = "github_token"
 
 #Inputs for all foundations CICD components
-cb_foundations_description    = "Foundations CodeBuild"
 cb_foundations_buildspec_path = "modules/aws/"
+cb_foundations_description    = "Foundations CodeBuild"
 cb_foundations_name           = "foundations"
 cp_foundations_description    = "Foundations Pipeline"
 cp_foundations_name           = "foundations"
