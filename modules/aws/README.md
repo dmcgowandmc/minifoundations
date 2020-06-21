@@ -143,7 +143,7 @@ uat_zone_fqdn  = "uat.tst.dmcgowan.click"
 
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"
-github_owner     = "dmcgowandmc"
+github_owner     = "dmcgowandmc" #CHANGE-REQUIRED - This value must be changed to the owner of the GitHub repo where your codebase resides
 ssm_github_token = "github_token"
 
 #Inputs for all foundations CICD components
@@ -153,7 +153,7 @@ cb_foundations_name           = "foundations"
 cp_foundations_description    = "Foundations Pipeline"
 cp_foundations_name           = "foundations"
 github_foundations_name       = "minifoundations"
-github_foundations_path       = "https://github.com/dmcgowandmc/minifoundations.git"
+github_foundations_path       = "https://github.com/dmcgowandmc/minifoundations.git" #CHANGE-REQUIRED - This value must be changed to path of the GitHub repo where your codebase resides
 
 #Inputs for all webstack CICD components
 cb_webstack_description = "Webstack CodeBuild"
@@ -161,7 +161,7 @@ cb_webstack_name        = "webstack"
 cp_webstack_description = "Webstack Pipeline"
 cp_webstack_name        = "webstack"
 github_webstack_name    = "webstack"
-github_webstack_path    = "https://github.com/dmcgowandmc/webstack.git"
+github_webstack_path    = "https://github.com/dmcgowandmc/webstack.git" #CHANGE-REQUIRED - This value must be changed to the owner of the GitHub repo where your codebase resides
 ```
 
 ### Deploy Environment
