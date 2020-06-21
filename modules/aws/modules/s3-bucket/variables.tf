@@ -45,6 +45,7 @@ variable "restrict_public_buckets" {
 }
 
 variable "server_side_encryption_configuration" {
-    description = "Map containing server-side encryption configuration. Not optional. At minimum, you should use AWS default encryption"
+    description = "Map containing server-side encryption configuration. Default is no encryption"
     type        = any
+    default     = {}
 }
