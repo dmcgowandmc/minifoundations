@@ -196,7 +196,7 @@ make terraform_init_apply PROJECT_CODE=<3 letter project code> REGION=<desired r
 Example:
 
 ```bash
-make terraform_init_apply PROJECT_CODE=tst REGION=ap-southeast-2
+make terraform_init_apply STATEBUCKET=terrastate-1125 PROJECT_CODE=tst REGION=ap-southeast-2
 ```
 
 ## Ongoing Maintenance and Updates
