@@ -17,7 +17,7 @@ output "s3_bucket_id" {
     value       = module.s3_bucket.this_s3_bucket_id
 }
 
-output "s3_bucket_regional_domain" {
+output "s3_bucket_regional_domain_name" {
     description = "The regional domain name of this bucket"
     value       = module.s3_bucket.this_s3_bucket_bucket_regional_domain_name
 }
