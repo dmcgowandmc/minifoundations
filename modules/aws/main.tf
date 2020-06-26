@@ -50,6 +50,7 @@ module "ct_s3_bucket" {
 }
 
 #Create a bucket policy for long term storage of CloudTrail events. Basically we want to prevent accidental or intentional deletion of data
+#Create the policy
 data "template_file" "ct_s3_bucket_policy_json" {
     template = file("policies/ct-s3-bucket-policy.json.tpl")
 
@@ -59,6 +60,7 @@ data "template_file" "ct_s3_bucket_policy_json" {
     }
 }
 
+#Apply the policy
 resource "aws_s3_bucket_policy" "ct_s3_bucket_policy" {
     bucket = module.ct_s3_bucket.s3_bucket_id
 
