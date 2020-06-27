@@ -23,5 +23,4 @@ terraform_init_apply:
 terraform_init_destroy:
 	@echo "--- Destroy for Terraform (Docker and Compose must be installed) ---"
 	@docker-compose run --rm terraform init -backend-config="bucket=$(STATEBUCKET)" -backend-config="key=foundations/default.tfstate" -backend-config="region=$(REGION)"
-	@echo "--- Apply for Terraform (Docker and Compose must be installed. The terraform_init_plan must be run first) ---"
 	@docker-compose run --rm terraform destroy -var project_code=$(PROJECT_CODE) -var "region=$(REGION)" -auto-approve
