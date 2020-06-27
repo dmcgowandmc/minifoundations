@@ -20,18 +20,23 @@ output "statebucket" {
 
 #Outputs for long term storage of logs for auditing
 output "audit_s3_bucket_name" {
-    description = "The name of the bucket (excluding random prefix)"
+    description = "The name of the audit bucket (excluding random prefix)"
     value       = module.audit_s3_bucket.s3_bucket_name
 }
 
 output "audit_s3_bucket_id" {
-    description = "The name of the bucket (random prefix + bucket name)"
+    description = "The name of the audit bucket (random prefix + bucket name)"
     value       = module.audit_s3_bucket.s3_bucket_id
 }
 
 output "audit_s3_bucket_arn" {
-    description = "The ARN of the bucket. Will be of format arn:aws:s3:::bucketname."
+    description = "The ARN of the audit bucket. Will be of format arn:aws:s3:::bucketname."
     value       = module.audit_s3_bucket.s3_bucket_arn
+}
+
+output "audit_s3_bucket_regional_domain_name" {
+    description = "The regional domain name of this audit bucket"
+    value       = module.audit_s3_bucket.s3_bucket_regional_domain_name
 }
 
 #Outputs for cloudtrail
