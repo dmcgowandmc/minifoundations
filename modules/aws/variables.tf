@@ -18,8 +18,8 @@ variable "statebucket" {
     description = "The name of the s3 bucket that stores the statefiles"
 }
 
-#Inputs for CloudTrail long term storage
-variable "ct_bucket_name" {
+#Inputs for long term storage of logs for auditing
+variable "audit_bucket_name" {
     type        = string
     description = "Name of s3 bucket for long term stroage of CloudTrail logs"
 }

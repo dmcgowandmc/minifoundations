@@ -2,8 +2,8 @@
 ## If running this directly and not using as a module, values are defined here ##
 #################################################################################
 
-#Inputs for CloudTrail long term storage
-ct_bucket_name = "platformtrail"
+#Inputs for long term storage of logs for auditing
+audit_bucket_name = "auditlog"
 
 #Inputs for admin group
 group_admin_name        = "administrators"

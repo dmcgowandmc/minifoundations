@@ -30,14 +30,14 @@ resource "aws_ssm_parameter" "infra_role_arn" {
     value = module.infra_role.role_arn
 }
 
-#Create bucket for long term storage of CloudTrail events
-module "ct_s3_bucket" {
+#Create bucket for long term storage of logs for auditing
+module "audit_s3_bucket" {
     source = "./modules/s3-bucket"
 
     block_public_acls                    = true
     block_public_policy                  = true
     project_code                         = var.project_code
-    bucket_name                          = var.ct_bucket_name
+    bucket_name                          = var.audit_bucket_name
     ignore_public_acls                   = true
     restrict_public_buckets              = true
     server_side_encryption_configuration = {
@@ -49,29 +49,28 @@ module "ct_s3_bucket" {
     }
 }
 
-#Create a bucket policy for long term storage of CloudTrail events. Basically we want to prevent accidental or intentional deletion of data
+#Create a bucket policy for long term stroage s3 bucket. Basically we want to prevent accidental or intentional deletion of data
 #Create the policy
-data "template_file" "ct_s3_bucket_policy_json" {
-    template = file("policies/ct-s3-bucket-policy.json.tpl")
+data "template_file" "audit_s3_bucket_policy_json" {
+    template = file("policies/audit-s3-bucket-policy.json.tpl")
 
     vars = {
-        s3_bucket_arn = module.ct_s3_bucket.s3_bucket_arn
+        s3_bucket_arn = module.audit_s3_bucket.s3_bucket_arn
         account_id    = data.aws_caller_identity.this.account_id
     }
 }
 
 #Apply the policy
-resource "aws_s3_bucket_policy" "ct_s3_bucket_policy" {
-    bucket = module.ct_s3_bucket.s3_bucket_id
+resource "aws_s3_bucket_policy" "audit_s3_bucket_policy" {
+    bucket = module.audit_s3_bucket.s3_bucket_id
 
-    policy = data.template_file.ct_s3_bucket_policy_json.rendered
+    policy = data.template_file.audit_s3_bucket_policy_json.rendered
 }
 
 #Create the management level cloud trail (limited benefit turning this into a module for now)
-resource "aws_cloudtrail" "logs-management" {
-    name                          = "${var.project_code}-ct-logsmanagement"
-    s3_bucket_name                = module.ct_s3_bucket.s3_bucket_id
-    s3_key_prefix                 = "logs-management"
+resource "aws_cloudtrail" "accesstrail" {
+    name                          = "${var.project_code}-ct-accesstrail"
+    s3_bucket_name                = module.audit_s3_bucket.s3_bucket_id
     include_global_service_events = false
 }
 

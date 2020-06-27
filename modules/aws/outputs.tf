@@ -18,30 +18,31 @@ output "statebucket" {
     value       = var.statebucket
 }
 
-#Outputs for Cloud Trail long term storage
-output "s3_bucket_name" {
+#Outputs for long term storage of logs for auditing
+output "audit_s3_bucket_name" {
     description = "The name of the bucket (excluding random prefix)"
-    value       = module.ct_s3_bucket.s3_bucket_name
+    value       = module.audit_s3_bucket.s3_bucket_name
 }
 
-output "s3_bucket_id" {
+output "audit_s3_bucket_id" {
     description = "The name of the bucket (random prefix + bucket name)"
-    value       = module.ct_s3_bucket.s3_bucket_id
+    value       = module.audit_s3_bucket.s3_bucket_id
 }
 
-output "s3_bucket_arn" {
+output "audit_s3_bucket_arn" {
     description = "The ARN of the bucket. Will be of format arn:aws:s3:::bucketname."
-    value       = module.ct_s3_bucket.s3_bucket_arn
+    value       = module.audit_s3_bucket.s3_bucket_arn
 }
 
+#Outputs for cloudtrail
 output "ct_id" {
     description = "The ID of the cloud trail"
-    value       = aws_cloudtrail.logs-management.id
+    value       = aws_cloudtrail.accesstrail.id
 }
 
 output "ct_arn" {
     description = "The ARN of the cloud trail"
-    value       = aws_cloudtrail.logs-management.arn
+    value       = aws_cloudtrail.accesstrail.arn
 }
 
 #Outputs for admin group
