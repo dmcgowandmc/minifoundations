@@ -84,6 +84,17 @@ output "role_app_arn" {
     value       = module.app_role.role_arn
 }
 
+#Outputs for Route53
+output "prod_zone_id" {
+    description = "The production zone ID"
+    value       = module.pub_prod_route53.zone_id
+}
+
+output "uat_zone_id" {
+    description = "The uat zone ID"
+    value       = module.uat_prod_route53.zone_id
+}
+
 #Outputs for VPC foundations
 output "vpc_foundations_database_subnet_arns" {
     description = "List of ARN's for the foundations Database Subnets"
