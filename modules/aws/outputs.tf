@@ -91,8 +91,18 @@ output "prod_zone_id" {
 }
 
 output "uat_zone_id" {
-    description = "The uat zone ID"
+    description = "The UAT zone ID"
     value       = module.uat_prod_route53.zone_id
+}
+
+output "prod_zone_fqdn" {
+    description = "The UAT zone FQDN"
+    value       = var.prod_zone_fqdn
+}
+
+output "uat_zone_fqdn" {
+    description = "The UAT zone FQDN"
+    value       = var.uat_zone_fqdn
 }
 
 #Outputs for VPC foundations
