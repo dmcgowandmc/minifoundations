@@ -20,18 +20,23 @@ output "statebucket" {
 
 #Outputs for long term storage of logs for auditing
 output "audit_s3_bucket_name" {
-    description = "The name of the bucket (excluding random prefix)"
+    description = "The name of the audit bucket (excluding random prefix)"
     value       = module.audit_s3_bucket.s3_bucket_name
 }
 
 output "audit_s3_bucket_id" {
-    description = "The name of the bucket (random prefix + bucket name)"
+    description = "The name of the audit bucket (random prefix + bucket name)"
     value       = module.audit_s3_bucket.s3_bucket_id
 }
 
 output "audit_s3_bucket_arn" {
-    description = "The ARN of the bucket. Will be of format arn:aws:s3:::bucketname."
+    description = "The ARN of the audit bucket. Will be of format arn:aws:s3:::bucketname."
     value       = module.audit_s3_bucket.s3_bucket_arn
+}
+
+output "audit_s3_bucket_regional_domain_name" {
+    description = "The regional domain name of this audit bucket"
+    value       = module.audit_s3_bucket.s3_bucket_regional_domain_name
 }
 
 #Outputs for cloudtrail
@@ -77,6 +82,27 @@ output "role_app_name" {
 output "role_app_arn" {
     description = "ARN of the app role"
     value       = module.app_role.role_arn
+}
+
+#Outputs for Route53
+output "prod_zone_id" {
+    description = "The production zone ID"
+    value       = module.pub_prod_route53.zone_id
+}
+
+output "uat_zone_id" {
+    description = "The UAT zone ID"
+    value       = module.uat_prod_route53.zone_id
+}
+
+output "prod_zone_fqdn" {
+    description = "The UAT zone FQDN"
+    value       = var.prod_zone_fqdn
+}
+
+output "uat_zone_fqdn" {
+    description = "The UAT zone FQDN"
+    value       = var.uat_zone_fqdn
 }
 
 #Outputs for VPC foundations
