@@ -1,5 +1,5 @@
 {
-    "Id": "CTS3BucketPolicy",
+    "Id": "AuditLogPolicies",
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -18,7 +18,7 @@
               "Service": "cloudtrail.amazonaws.com"
             },
             "Action": "s3:PutObject",
-            "Resource": "${s3_bucket_arn}/logs-management/AWSLogs/${account_id}/*",
+            "Resource": "${s3_bucket_arn}/AWSLogs/${account_id}/*",
             "Condition": {
                 "StringEquals": {
                     "s3:x-amz-acl": "bucket-owner-full-control"
