@@ -45,6 +45,10 @@ variable "cp_role_arn" {
     description = "The ARN of the role CodePipeline will use"
 }
 
+##PLACEHOLDER
+##I may experiment with gitops and gitflow style pipelines. However in the short term, i think just using gitops for all deployments is the way to go
+##This gives app developers the ability to control deployments within Git 
+
 variable "github_name" {
     type        = string
     description = "Name of the GitHub repo"
