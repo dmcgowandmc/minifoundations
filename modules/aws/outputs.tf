@@ -1,6 +1,6 @@
-###############################################
-## All outputs  base code should reside here ##
-###############################################
+##################################################
+## All outputs for base code should reside here ##
+##################################################
 
 #Global Outputs
 output "project_code" {
