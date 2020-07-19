@@ -39,6 +39,27 @@ output "audit_s3_bucket_regional_domain_name" {
     value       = module.audit_s3_bucket.s3_bucket_regional_domain_name
 }
 
+#Outputs for CICD artefact storage
+output "cp_s3_bucket_name" {
+    description = "The name of the code pipeline bucket (excluding random prefix)"
+    value       = module.cp_s3_bucket.s3_bucket_name
+}
+
+output "cp_s3_bucket_id" {
+    description = "The name of the code pipeline bucket (random prefix + bucket name)"
+    value       = module.cp_s3_bucket.s3_bucket_id
+}
+
+output "cp_s3_bucket_arn" {
+    description = "The ARN of the code pipeline bucket. Will be of format arn:aws:s3:::bucketname."
+    value       = module.cp_s3_bucket.s3_bucket_arn
+}
+
+output "cp_s3_bucket_regional_domain_name" {
+    description = "The regional domain name of this code pipeline bucket"
+    value       = module.cp_s3_bucket.s3_bucket_regional_domain_name
+}
+
 #Outputs for cloudtrail
 output "ct_id" {
     description = "The ID of the cloud trail"
