@@ -35,9 +35,14 @@ role_infra_trusted_services = [
 
 #Inputs for fullstack role
 role_app_name = "fullstack"
-#role_app_policy_arns = [] #Permissions to be defined
+role_app_policy_arns = [
+    "arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess",
+    "arn:aws:iam::aws:policy/AWSCodePipelineReadOnlyAccess",
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+]
 role_app_trusted_services = [
-    "codebuild.amazonaws.com"
+    "codebuild.amazonaws.com",
+    "codepipeline.amazonaws.com"
 ]
 
 #Inputs for foundations VPC
