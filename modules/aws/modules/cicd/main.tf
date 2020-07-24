@@ -204,7 +204,7 @@ resource "aws_codepipeline" "codepipeline-production" {
     }
 
     #Hack to get around the constant refreshing of OAuthToken
-    #NOTE: THis means if you change the token, you need to delete the action manually to force terreform to recreate
+    #NOTE: This means if you change the token, you need to delete the action manually to force terreform to recreate
     lifecycle {
         ignore_changes = [stage[0].action[0].configuration]
     }
