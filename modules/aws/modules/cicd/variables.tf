@@ -14,6 +14,12 @@ variable "artefact_bucket_name" {
     description = "Name of the bucket where artefacts will be stored"
 }
 
+variable "cb_buildspec_cmd" {
+    #type        = map() #Unable to set desired validation type
+    description = "A map specifying the desired command and any required inputs. If left to default, it will be ignored and a buildspec file will be expected in repo"
+    default     = {}
+}
+
 variable "cb_buildspec_path" {
     type        = string
     description = "Path to the buildspec file where not in default root location"

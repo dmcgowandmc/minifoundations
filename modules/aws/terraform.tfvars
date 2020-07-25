@@ -38,7 +38,8 @@ role_app_name = "fullstack"
 role_app_policy_arns = [
     "arn:aws:iam::aws:policy/AWSCodeBuildDeveloperAccess",
     "arn:aws:iam::aws:policy/AWSCodePipelineReadOnlyAccess",
-    "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+    "arn:aws:iam::aws:policy/AmazonS3FullAccess", #Replace with custom policy to protect S3 buckets
+    "arn:aws:iam::aws:policy/CloudWatchLogsFullAccess"
 ]
 role_app_trusted_services = [
     "codebuild.amazonaws.com",

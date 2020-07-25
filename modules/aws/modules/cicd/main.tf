@@ -37,7 +37,8 @@ resource "aws_codebuild_project" "codebuild-master" {
     source {
         type      = "GITHUB"
         location  = var.github_path
-        buildspec = "${var.cb_buildspec_path}buildspec-master.yml"
+        buildspec = var.cb_buildspec_cmd == {} ? "${var.cb_buildspec_path}buildspec-master.yml" : templatefile("${path.module}/templates/${var.cb_buildspec_cmd["cmd"]}.yml.tpl", var.cb_buildspec_cmd["varuat"])
+
         auth {
             type     = "OAUTH"
             resource = aws_codebuild_source_credential.github_auth.id
@@ -73,7 +74,8 @@ resource "aws_codebuild_project" "codebuild-production" {
     source {
         type      = "GITHUB"
         location  = var.github_path
-        buildspec = "${var.cb_buildspec_path}buildspec-production.yml"
+        buildspec = var.cb_buildspec_cmd == {} ? "${var.cb_buildspec_path}buildspec-production.yml" : templatefile("${path.module}/templates/${var.cb_buildspec_cmd["cmd"]}.yml.tpl", var.cb_buildspec_cmd["varprd"])
+
         auth {
             type     = "OAUTH"
             resource = aws_codebuild_source_credential.github_auth.id
@@ -204,7 +206,7 @@ resource "aws_codepipeline" "codepipeline-production" {
     }
 
     #Hack to get around the constant refreshing of OAuthToken
-    #NOTE: THis means if you change the token, you need to delete the action manually to force terreform to recreate
+    #NOTE: This means if you change the token, you need to delete the action manually to force terreform to recreate
     lifecycle {
         ignore_changes = [stage[0].action[0].configuration]
     }
