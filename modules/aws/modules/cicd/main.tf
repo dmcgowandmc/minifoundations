@@ -17,6 +17,14 @@ data "aws_ssm_parameter" "ssm_github_token" {
     name = var.ssm_github_token
 }
 
+#Setup template buildspec if applicable
+data "template_file" "buildspec" {
+    count = var.cb_buildspec_cmd == {} ? 0 : 1 
+
+    template = "templates/${var.cb_buildspec_cmd["cmd"]}.yml.tpl"
+    vars     = var.cb_buildspec_cmd["varuat"]
+}
+
 #Setting up GitHub authorization for CodeBuild
 resource "aws_codebuild_source_credential" "github_auth" {
     auth_type   = "PERSONAL_ACCESS_TOKEN"
@@ -37,7 +45,8 @@ resource "aws_codebuild_project" "codebuild-master" {
     source {
         type      = "GITHUB"
         location  = var.github_path
-        buildspec = "${var.cb_buildspec_path}buildspec-master.yml"
+        buildspec = var.cb_buildspec_cmd == {} ? "${var.cb_buildspec_path}buildspec-master.yml" : templatefile("${path.module}/templates/${var.cb_buildspec_cmd["cmd"]}.yml.tpl", var.cb_buildspec_cmd["varuat"])
+
         auth {
             type     = "OAUTH"
             resource = aws_codebuild_source_credential.github_auth.id
@@ -73,7 +82,8 @@ resource "aws_codebuild_project" "codebuild-production" {
     source {
         type      = "GITHUB"
         location  = var.github_path
-        buildspec = "${var.cb_buildspec_path}buildspec-production.yml"
+        buildspec = var.cb_buildspec_cmd == {} ? "${var.cb_buildspec_path}buildspec-production.yml" : templatefile("${path.module}/templates/${var.cb_buildspec_cmd["cmd"]}.yml.tpl", var.cb_buildspec_cmd["varprd"])
+
         auth {
             type     = "OAUTH"
             resource = aws_codebuild_source_credential.github_auth.id
