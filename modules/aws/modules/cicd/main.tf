@@ -17,14 +17,6 @@ data "aws_ssm_parameter" "ssm_github_token" {
     name = var.ssm_github_token
 }
 
-#Setup template buildspec if applicable
-data "template_file" "buildspec" {
-    count = var.cb_buildspec_cmd == {} ? 0 : 1 
-
-    template = "templates/${var.cb_buildspec_cmd["cmd"]}.yml.tpl"
-    vars     = var.cb_buildspec_cmd["varuat"]
-}
-
 #Setting up GitHub authorization for CodeBuild
 resource "aws_codebuild_source_credential" "github_auth" {
     auth_type   = "PERSONAL_ACCESS_TOKEN"
