@@ -3,8 +3,19 @@
 #######################################################################
 
 locals {
-    #Resource code NOTE: Resource and project code will only be used for tags
-    role_resource_code = "s3"
+    #Resource code NOTE: Resource, project code, customer code and environment code will only be used for tags
+    s3_resource_code = "s3"
+    tag_name = var.customer_code != "" && var.environment_code != "" ? "${var.project_code}-${local.s3_resource_code}-${var.customer_code}-${var.environment_code}-${var.bucket_name}" : "${var.project_code}-${local.s3_resource_code}-${var.bucket_name}"
+    tags = merge(
+        {
+            "Name"             = local.tag_name,
+            "Project Code"     = var.project_code,
+            "Resource Code"    = local.s3_resource_code,
+            "Customer Code"    = var.customer_code == "" ? "NA" : var.customer_code,
+            "Environment Code" = var.environment_code == "" ? "NA" : var.environment_code
+        },
+        var.tags
+    )
 }
 
 #Buckets name should not reveal there associated projects, so using a random postfix to prevent conflits with other buckets instead of project code
@@ -29,4 +40,5 @@ module "s3_bucket" {
     policy                               = var.policy
     restrict_public_buckets              = var.restrict_public_buckets
     server_side_encryption_configuration = var.server_side_encryption_configuration
+    tags                                 = local.tags
 }
