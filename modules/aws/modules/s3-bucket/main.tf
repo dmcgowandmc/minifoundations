@@ -3,8 +3,10 @@
 #######################################################################
 
 locals {
-    #Resource code NOTE: Resource, project code, customer code and environment code will only be used for tags
+    #Resource code
     s3_resource_code = "s3"
+
+    #Tag Settings: NOTE: Resource, project code, customer code and environment code will only be used for tags
     tag_name = var.customer_code != "" && var.environment_code != "" ? "${var.project_code}-${local.s3_resource_code}-${var.customer_code}-${var.environment_code}-${var.bucket_name}" : "${var.project_code}-${local.s3_resource_code}-${var.bucket_name}"
     tags = merge(
         {
