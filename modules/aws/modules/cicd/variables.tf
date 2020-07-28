@@ -2,6 +2,13 @@
 ## All variables for the CICD pipeline using code commit, build and pipeline defined here ##
 ############################################################################################
 
+#Customer code used with project code to create a unique name
+variable "customer_code" {
+    type        = string
+    description = "Small prefix indentifying the customer. Used with project code for unique name when used outside foundations"
+    default     = ""
+}
+
 #Project code forms part of the naming convention
 variable "project_code" {
     type        = string
@@ -73,4 +80,10 @@ variable "github_path" {
 variable "ssm_github_token" {
     type        = string
     description = "Name of the SSM parameter store that will contain your GitHub token (only GitLab supported at this time)"
+}
+
+variable "tags" {
+    type        = map(string)
+    description = "Optional map of additional tags for code build and code pipeline (added to both)"
+    default     = {}
 }

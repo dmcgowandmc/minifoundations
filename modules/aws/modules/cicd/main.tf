@@ -10,6 +10,62 @@ locals {
     #Resource codes
     cb_resource_code = "cb"
     cp_resource_code = "cp"
+
+    #Code Build Master Name and Tag Settings
+    cb_master_name = var.customer_code == "" ? "${var.project_code}-${local.cb_resource_code}-${var.cb_name}-master" : "${var.project_code}-${local.cb_resource_code}-${var.customer_code}-${var.cb_name}-master"
+    cb_master_tags = merge(
+        {
+            "Name"             = local.cb_master_name,
+            "Project Code"     = var.project_code,
+            "Resource Code"    = local.cb_resource_code,
+            "Customer Code"    = var.customer_code == "" ? "NA" : var.customer_code,
+            "Environment Code" = "NA"
+            "Branch"           = "master"
+        },
+        var.tags
+    )
+
+    #Code Pipeline Master Name and Tag Settings
+    cp_master_name = var.customer_code == "" ? "${var.project_code}-${local.cp_resource_code}-${var.cp_name}-master" : "${var.project_code}-${local.cp_resource_code}-${var.customer_code}-${var.cp_name}-master"
+    cp_master_tags = merge(
+        {
+            "Name"             = local.cp_master_name,
+            "Project Code"     = var.project_code,
+            "Resource Code"    = local.cp_resource_code,
+            "Customer Code"    = var.customer_code == "" ? "NA" : var.customer_code,
+            "Environment Code" = "NA"
+            "Branch"           = "master"
+        },
+        var.tags
+    )
+
+    #Code Build Production Name and Tag Settings
+    cb_production_name = var.customer_code == "" ? "${var.project_code}-${local.cb_resource_code}-${var.cb_name}-production" : "${var.project_code}-${local.cb_resource_code}-${var.customer_code}-${var.cb_name}-production"
+    cb_production_tags = merge(
+        {
+            "Name"             = local.cb_production_name,
+            "Project Code"     = var.project_code,
+            "Resource Code"    = local.cb_resource_code,
+            "Customer Code"    = var.customer_code == "" ? "NA" : var.customer_code,
+            "Environment Code" = "NA"
+            "Branch"           = "production"
+        },
+        var.tags
+    )
+
+    #Code Pipeline Production Name and Tag Settings
+    cp_production_name = var.customer_code == "" ? "${var.project_code}-${local.cp_resource_code}-${var.cp_name}-production" : "${var.project_code}-${local.cp_resource_code}-${var.customer_code}-${var.cp_name}-production"
+    cp_production_tags = merge(
+        {
+            "Name"             = local.cp_production_name,
+            "Project Code"     = var.project_code,
+            "Resource Code"    = local.cp_resource_code,
+            "Customer Code"    = var.customer_code == "" ? "NA" : var.customer_code,
+            "Environment Code" = "NA"
+            "Branch"           = "production"
+        },
+        var.tags
+    )
 }
 
 #Get secure token from ssm parameter store
@@ -26,7 +82,7 @@ resource "aws_codebuild_source_credential" "github_auth" {
 
 #Create the CodeBuild for master (since we are using terraform, we actually use code build for code deployment)
 resource "aws_codebuild_project" "codebuild-master" {
-    name           = "${var.project_code}-${local.cb_resource_code}-${var.cb_name}-master"
+    name           = local.cb_master_name
     description    = var.cb_description
     #build_timeout  = "5"
     #queued_timeout = "5"
@@ -59,11 +115,13 @@ resource "aws_codebuild_project" "codebuild-master" {
         type            = "LINUX_CONTAINER"
         privileged_mode = true
     }
+
+    tags = local.cb_master_tags
 }
 
 #Create the CodeBuild for production (since we are using terraform, we actually use code build for code deployment)
 resource "aws_codebuild_project" "codebuild-production" {
-    name           = "${var.project_code}-${local.cb_resource_code}-${var.cb_name}-production"
+    name           = local.cb_production_name
     description    = var.cb_description
     #build_timeout  = "5"
     #queued_timeout = "5"
@@ -96,11 +154,13 @@ resource "aws_codebuild_project" "codebuild-production" {
         type            = "LINUX_CONTAINER"
         privileged_mode = true
     }
+
+    tags = local.cb_production_tags
 }
 
 #Create the CodePipeline for master branch
 resource "aws_codepipeline" "codepipeline-master" {
-    name     = "${var.project_code}-${local.cp_resource_code}-${var.cp_name}-master"
+    name     = local.cp_master_name
     role_arn = var.cp_role_arn
 
     #Create artefact store as this is mandatory
@@ -148,6 +208,8 @@ resource "aws_codepipeline" "codepipeline-master" {
         }
     }
 
+    tags = local.cp_master_tags
+
     #Hack to get around the constant refreshing of OAuthToken
     #NOTE: THis means if you change the token, you need to delete the action manually to force terreform to recreate
     lifecycle {
@@ -157,7 +219,7 @@ resource "aws_codepipeline" "codepipeline-master" {
 
 #Create the CodePipeline for production branch
 resource "aws_codepipeline" "codepipeline-production" {
-    name     = "${var.project_code}-${local.cp_resource_code}-${var.cp_name}-production"
+    name     = local.cp_production_name
     role_arn = var.cp_role_arn
 
     #Create artefact store as this is mandatory
@@ -204,6 +266,8 @@ resource "aws_codepipeline" "codepipeline-production" {
             }
         }
     }
+
+    tags = local.cp_production_tags
 
     #Hack to get around the constant refreshing of OAuthToken
     #NOTE: This means if you change the token, you need to delete the action manually to force terreform to recreate

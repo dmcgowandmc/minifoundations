@@ -27,7 +27,7 @@ module "iam_assumable_role" {
 
     create_role             = true
     custom_role_policy_arns = var.policy_arns
-    role_name               = "${var.project_code}-${local.role_resource_code}-${var.name}"
+    role_name               = local.role_name
     role_requires_mfa       = false
     trusted_role_services   = var.trusted_services
     tags                    = local.tags
