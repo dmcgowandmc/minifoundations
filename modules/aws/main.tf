@@ -165,8 +165,9 @@ module "cp_s3_bucket" {
     }
 }
 
-#Create CICD for the foundations repo
-module "cicd_foundations" {
+#Create UAT CICD for the foundations repo
+#NOTE: As there actually isn't a concept of environments at the foundations, UAT pipeline will produce a plan but will not apply as specified by the buildspec file
+module "cicd_foundations_master" {
     source = "./modules/cicd"
 
     artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
@@ -175,7 +176,9 @@ module "cicd_foundations" {
     cb_name              = var.cb_foundations_name
     cp_description       = var.cp_foundations_description
     cp_name              = var.cp_foundations_name
-    cp_role_arn          = module.infra_role.role_arn    
+    cp_role_arn          = module.infra_role.role_arn
+    environment_code     = "uat"
+    github_branch        = "master"   
     github_name          = var.github_foundations_name
     github_path          = var.github_foundations_path
     github_owner         = var.github_owner
@@ -183,19 +186,19 @@ module "cicd_foundations" {
     ssm_github_token     = var.ssm_github_token
 }
 
-#Create CICD for the infrastructure stack
-module "cicd_webstack" {
-    source = "./modules/cicd"
+# #Create CICD for the infrastructure stack
+# module "cicd_webstack" {
+#     source = "./modules/cicd"
 
-    artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
-    cb_description       = var.cb_webstack_description
-    cb_name              = var.cb_webstack_name
-    cp_description       = var.cp_webstack_description
-    cp_name              = var.cp_webstack_name
-    cp_role_arn          = module.infra_role.role_arn    
-    github_name          = var.github_webstack_name
-    github_path          = var.github_webstack_path
-    github_owner         = var.github_owner
-    project_code         = var.project_code
-    ssm_github_token     = var.ssm_github_token
-}
+#     artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
+#     cb_description       = var.cb_webstack_description
+#     cb_name              = var.cb_webstack_name
+#     cp_description       = var.cp_webstack_description
+#     cp_name              = var.cp_webstack_name
+#     cp_role_arn          = module.infra_role.role_arn    
+#     github_name          = var.github_webstack_name
+#     github_path          = var.github_webstack_path
+#     github_owner         = var.github_owner
+#     project_code         = var.project_code
+#     ssm_github_token     = var.ssm_github_token
+# }

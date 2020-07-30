@@ -2,10 +2,17 @@
 ## All variables for the CICD pipeline using code commit, build and pipeline defined here ##
 ############################################################################################
 
-#Customer code used with project code to create a unique name
+#Environment code used with customer code and project code to create a unique identifier
+variable "environment_code" {
+    type        = string
+    description = "2 - 4 letter prefix identifying your environment. Used with customer code and project code for unique name when used outside foundations"
+    default     = ""
+}
+
+#Customer code used with environment code and project code to create a unique name
 variable "customer_code" {
     type        = string
-    description = "Small prefix indentifying the customer. Used with project code for unique name when used outside foundations"
+    description = "Small prefix indentifying the customer. Used with environment code and project code for unique name when used outside foundations"
     default     = ""
 }
 
@@ -58,10 +65,10 @@ variable "cp_role_arn" {
     description = "The ARN of the role CodePipeline will use"
 }
 
-##PLACEHOLDER
-##I may experiment with gitops and gitflow style pipelines. However in the short term, i think just using gitops for all deployments is the way to go
-##This gives app developers the ability to control deployments within Git 
-
+variable "github_branch" {
+    type        = string
+    description = "The branch for the CICD to work off"
+}
 variable "github_name" {
     type        = string
     description = "Name of the GitHub repo"
