@@ -166,7 +166,7 @@ module "cp_s3_bucket" {
 }
 
 #Create UAT CICD for the foundations repo
-#NOTE: As there actually isn't a concept of environments at the foundations, UAT pipeline will produce a plan but will not apply as specified by the buildspec file
+#NOTE: As there actually isn't a concept of environments at the foundations, UAT CICD will produce a plan only
 module "cicd_foundations_master" {
     source = "./modules/cicd"
 
@@ -186,7 +186,28 @@ module "cicd_foundations_master" {
     ssm_github_token     = var.ssm_github_token
 }
 
-# #Create CICD for the infrastructure stack
+#Create Production CICD for the foundations repo
+#NOTE: Will produce a plan and apply as per other stacks
+module "cicd_foundations_production" {
+    source = "./modules/cicd"
+
+    artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
+    cb_buildspec_path    = var.cb_foundations_buildspec_path
+    cb_description       = var.cb_foundations_description
+    cb_name              = var.cb_foundations_name
+    cp_description       = var.cp_foundations_description
+    cp_name              = var.cp_foundations_name
+    cp_role_arn          = module.infra_role.role_arn
+    environment_code     = "prod"
+    github_branch        = "production"   
+    github_name          = var.github_foundations_name
+    github_path          = var.github_foundations_path
+    github_owner         = var.github_owner
+    project_code         = var.project_code
+    ssm_github_token     = var.ssm_github_token
+}
+
+# #Create Production CICD for the infrastructure stack
 # module "cicd_webstack" {
 #     source = "./modules/cicd"
 
