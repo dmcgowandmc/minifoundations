@@ -11,27 +11,27 @@ locals {
     cp_resource_code = "cp"
 
     #Code Build Name and Tag Settings
-    cb_name = var.customer_code == "" && var.environment_code == "" ? "${var.project_code}-${local.cb_resource_code}-${var.cb_name}" : var.customer_code == "" ? "${var.project_code}-${local.cb_resource_code}-${var.environment_code}-${var.cb_name}" : "${var.project_code}-${local.cb_resource_code}-${var.customer_code}-${var.environment_code}-${var.cb_name}"
+    cb_name = var.customer_code == "" ? "${var.project_code}-${local.cb_resource_code}-${var.environment_code}-${var.cb_name}" : "${var.project_code}-${local.cb_resource_code}-${var.customer_code}-${var.environment_code}-${var.cb_name}"
     cb_tags = merge(
         {
             "Name"             = local.cb_name,
             "Project Code"     = var.project_code,
             "Resource Code"    = local.cb_resource_code,
             "Customer Code"    = var.customer_code == "" ? "NA" : var.customer_code,
-            "Environment Code" = var.environment_code == ""? "NA" : var.environment_code
+            "Environment Code" = var.environment_code
         },
         var.tags
     )
 
     #Code Pipeline Name and Tag Settings
-    cp_name = var.customer_code == "" && var.environment_code == "" ? "${var.project_code}-${local.cp_resource_code}-${var.cp_name}" : var.customer_code == "" ? "${var.project_code}-${local.cp_resource_code}-${var.environment_code}-${var.cp_name}" : "${var.project_code}-${local.cp_resource_code}-${var.customer_code}-${var.environment_code}-${var.cp_name}"
+    cp_name = var.customer_code == "" ? "${var.project_code}-${local.cp_resource_code}-${var.environment_code}-${var.cp_name}" : "${var.project_code}-${local.cp_resource_code}-${var.customer_code}-${var.environment_code}-${var.cp_name}"
     cp_tags = merge(
         {
             "Name"             = local.cp_name,
             "Project Code"     = var.project_code,
             "Resource Code"    = local.cp_resource_code,
             "Customer Code"    = var.customer_code == "" ? "NA" : var.customer_code,
-            "Environment Code" = var.environment_code == ""? "NA" : var.environment_code
+            "Environment Code" = var.environment_code
         },
         var.tags
     )

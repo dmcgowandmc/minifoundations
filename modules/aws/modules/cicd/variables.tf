@@ -2,11 +2,10 @@
 ## All variables for the CICD pipeline using code commit, build and pipeline defined here ##
 ############################################################################################
 
-#Environment code used with customer code and project code to create a unique identifier
+#Environment code used with customer code and project code to create a unique identifier. Always used for CICD as there must be 2 environments at minimum
 variable "environment_code" {
     type        = string
-    description = "2 - 4 letter prefix identifying your environment. Used with customer code and project code for unique name when used outside foundations"
-    default     = ""
+    description = "2 - 4 letter prefix identifying your environment. Required for CICD"
 }
 
 #Customer code used with environment code and project code to create a unique name
