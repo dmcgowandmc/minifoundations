@@ -168,7 +168,7 @@ module "cicd_foundations_master" {
     cp_name              = var.cp_foundations_name
     cp_role_arn          = module.infra_role.role_arn
     environment_code     = "uat"
-    github_branch        = "master"   
+    github_branch        = "master"
     github_name          = var.github_foundations_name
     github_path          = var.github_foundations_path
     github_owner         = var.github_owner
@@ -197,19 +197,40 @@ module "cicd_foundations_production" {
     ssm_github_token     = var.ssm_github_token
 }
 
-# #Create Production CICD for the infrastructure stack
-# module "cicd_webstack" {
-#     source = "./modules/cicd"
+#Create UAT CICD for services built ontop of foundations
+module "cicd_services_master" {
+    source = "./modules/cicd"
 
-#     artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
-#     cb_description       = var.cb_webstack_description
-#     cb_name              = var.cb_webstack_name
-#     cp_description       = var.cp_webstack_description
-#     cp_name              = var.cp_webstack_name
-#     cp_role_arn          = module.infra_role.role_arn    
-#     github_name          = var.github_webstack_name
-#     github_path          = var.github_webstack_path
-#     github_owner         = var.github_owner
-#     project_code         = var.project_code
-#     ssm_github_token     = var.ssm_github_token
-# }
+    artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
+    cb_description       = var.cb_services_description
+    cb_name              = var.cb_services_name
+    cp_description       = var.cp_services_description
+    cp_name              = var.cp_services_name
+    cp_role_arn          = module.infra_role.role_arn
+    environment_code     = "uat"
+    github_branch        = "master"
+    github_name          = var.github_services_name
+    github_path          = var.github_services_path
+    github_owner         = var.github_owner
+    project_code         = var.project_code
+    ssm_github_token     = var.ssm_github_token
+}
+
+#Create UAT CICD for services built ontop of foundations
+module "cicd_services_production" {
+    source = "./modules/cicd"
+
+    artefact_bucket_name = module.cp_s3_bucket.s3_bucket_id
+    cb_description       = var.cb_services_description
+    cb_name              = var.cb_services_name
+    cp_description       = var.cp_services_description
+    cp_name              = var.cp_services_name
+    cp_role_arn          = module.infra_role.role_arn
+    environment_code     = "prod"
+    github_branch        = "production"
+    github_name          = var.github_services_name
+    github_path          = var.github_services_path
+    github_owner         = var.github_owner
+    project_code         = var.project_code
+    ssm_github_token     = var.ssm_github_token
+}

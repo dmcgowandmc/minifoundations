@@ -70,7 +70,7 @@ resource "aws_codebuild_project" "codebuild" {
         }
     }
 
-    source_version = "master"
+    source_version = var.github_branch
 
     #No artefacts produced
     artifacts {
@@ -114,7 +114,7 @@ resource "aws_codepipeline" "codepipeline" {
             configuration = {
                 Owner      = var.github_owner
                 Repo       = var.github_name
-                Branch     = "master"
+                Branch     = var.github_branch
                 OAuthToken = data.aws_ssm_parameter.ssm_github_token.value
             }
         }
