@@ -28,9 +28,9 @@ variable "artefact_bucket_name" {
 }
 
 variable "cb_buildspec_cmd" {
-    #type        = map() #Unable to set desired validation type
+    type        = object({ cmd = string, var = map(string) })
     description = "A map specifying the desired command and any required inputs. If left to default, it will be ignored and a buildspec file will be expected in repo"
-    default     = {}
+    default     = {"cmd" = "NA", "var" = {}}
 }
 
 variable "cb_buildspec_path" {
