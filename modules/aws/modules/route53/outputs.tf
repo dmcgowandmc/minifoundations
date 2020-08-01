@@ -12,6 +12,11 @@ output "private_zone" {
     value       = var.vpc_id == "" ? false : true
 }
 
+output "zone_fqdn" {
+    description = "The zone FQDN"
+    value       = var.zone_fqdn
+}
+
 output "zone_id" {
     description = "The zone ID"
     value       = var.vpc_id == "" ? aws_route53_zone.public[0].zone_id : aws_route53_zone.private[0].zone_id

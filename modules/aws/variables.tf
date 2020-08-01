@@ -124,14 +124,9 @@ variable "vpc_foundations_name" {
 }
 
 #Inputs for Route 53
-variable "prod_zone_fqdn" {
+variable "internal_zone_fqdn" {
     type        = string
-    description = "Fully qualified domain name for the production zone"
-}
-
-variable "uat_zone_fqdn" {
-    type        = string
-    description = "Fully qualified domain name for the UAT zone"
+    description = "Fully qualified domain name for the internal zone"
 }
 
 #Inputs for common CICD components
@@ -186,33 +181,33 @@ variable "github_foundations_path" {
     description = "Path to the foundations GitHub repo"
 }
 
-#Inputs for Webstack CICD Components
-variable "cb_webstack_description" {
+#Inputs for Services CICD Components
+variable "cb_services_description" {
     type        = string
-    description = "Description of the webstack Code Build Project"
+    description = "Description of the services Code Build Project"
 }
 
-variable "cb_webstack_name" {
+variable "cb_services_name" {
     type        = string
-    description = "Name of the webstack Code Build Project"
+    description = "Name of the services Code Build Project"
 }
 
-variable "cp_webstack_description" {
+variable "cp_services_description" {
     type        = string
-    description = "Description of the CodePipeline for webstack"
+    description = "Description of the CodePipeline for services"
 }
 
-variable "cp_webstack_name" {
+variable "cp_services_name" {
     type        = string
-    description = "Name of the CodePipeline for webstack"
+    description = "Name of the CodePipeline for services"
 }
 
-variable "github_webstack_name" {
+variable "github_services_name" {
     type        = string
-    description = "Name of the webstack GitHub repo"
+    description = "Name of the services GitHub repo"
 }
 
-variable "github_webstack_path" {
+variable "github_services_path" {
     type        = string
-    description = "Path to the webstack GitHub repo"
+    description = "Path to the services GitHub repo"
 }

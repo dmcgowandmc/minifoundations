@@ -62,7 +62,7 @@ resource "aws_codebuild_project" "codebuild" {
     source {
         type      = "GITHUB"
         location  = var.github_path
-        buildspec = var.cb_buildspec_cmd == {} ? "${var.cb_buildspec_path}buildspec-${var.github_branch}.yml" : templatefile("${path.module}/templates/${var.cb_buildspec_cmd["cmd"]}.yml.tpl", var.cb_buildspec_cmd["var"])
+        buildspec = var.cb_buildspec_cmd["cmd"] == "NA" ? "${var.cb_buildspec_path}buildspec-${var.github_branch}.yml" : templatefile("${path.module}/templates/${var.cb_buildspec_cmd["cmd"]}.yml.tpl", var.cb_buildspec_cmd["var"])
 
         auth {
             type     = "OAUTH"
@@ -70,7 +70,7 @@ resource "aws_codebuild_project" "codebuild" {
         }
     }
 
-    source_version = "master"
+    source_version = var.github_branch
 
     #No artefacts produced
     artifacts {
@@ -114,7 +114,7 @@ resource "aws_codepipeline" "codepipeline" {
             configuration = {
                 Owner      = var.github_owner
                 Repo       = var.github_name
-                Branch     = "master"
+                Branch     = var.github_branch
                 OAuthToken = data.aws_ssm_parameter.ssm_github_token.value
             }
         }
