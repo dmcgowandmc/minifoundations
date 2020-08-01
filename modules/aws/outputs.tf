@@ -105,21 +105,10 @@ output "role_app_arn" {
     value       = module.app_role.role_arn
 }
 
-#Outputs for Route53. Output values into a list so we can easily refer to the environment we want
+#Outputs for internal Route53 zone
 output "zone_id" {
-    description = "The production zone ID"
-    value       = {
-        "prod" = module.pub_prod_route53.zone_id
-        "uat"  = module.uat_prod_route53.zone_id
-    }
-}
-
-output "zone_fqdn" {
-    description = "The UAT zone FQDN"
-    value       = {
-        "prod" = var.prod_zone_fqdn
-        "uat"  = var.uat_zone_fqdn
-    }
+    description = "The internal zone ID"
+    value       = module.private_route53.zone_id
 }
 
 #Outputs for VPC foundations

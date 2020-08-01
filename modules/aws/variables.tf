@@ -124,14 +124,9 @@ variable "vpc_foundations_name" {
 }
 
 #Inputs for Route 53
-variable "prod_zone_fqdn" {
+variable "internal_zone_fqdn" {
     type        = string
-    description = "Fully qualified domain name for the production zone"
-}
-
-variable "uat_zone_fqdn" {
-    type        = string
-    description = "Fully qualified domain name for the UAT zone"
+    description = "Fully qualified domain name for the internal zone"
 }
 
 #Inputs for common CICD components

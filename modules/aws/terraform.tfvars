@@ -55,8 +55,7 @@ vpc_foundations_public_subnets   = ["10.0.0.0/23"]
 vpc_foundations_name             = "foundations"
 
 #Inputs for Route 53
-prod_zone_fqdn = "tst.dmcgowan.click"
-uat_zone_fqdn  = "uat.tst.dmcgowan.click"
+internal_zone_fqdn = "tst.dmcgowan.internal"
 
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"
