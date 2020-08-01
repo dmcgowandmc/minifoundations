@@ -127,23 +127,13 @@ module "vpc_foundations" {
     project_code     = var.project_code
 }
 
-#Create public production Route 53 zone
-module "pub_prod_route53" {
-    source = "./modules/route53"
-
-    child_zone_map = {
-        "${var.uat_zone_fqdn}" = module.uat_prod_route53.name_servers
-    }
-    project_code   = var.project_code
-    zone_fqdn      = var.prod_zone_fqdn
-}
-
-#Create public UAT Route 53 zone
-module "uat_prod_route53" {
+#Create a private Route 53 zone for the VPC
+module "private_route53" {
     source = "./modules/route53"
 
     project_code = var.project_code
-    zone_fqdn    = var.uat_zone_fqdn
+    vpc_id       = module.vpc_foundations.vpc_id
+    zone_fqdn    = var.internal_zone_fqdn
 }
 
 #Create storage bucket for CodePipeline
