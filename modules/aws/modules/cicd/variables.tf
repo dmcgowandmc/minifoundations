@@ -78,9 +78,9 @@ variable "github_path" {
     description = "Path to the GitHub repo"
 }
 
-variable "role_arn" {
+variable "role_name" {
     type        = string
-    description = "The ARN of the role CodePipeline AND CodeBuild will use"
+    description = "The name of the role CodePipeline AND CodeBuild will use"
 }
 
 variable "ssm_github_token" {

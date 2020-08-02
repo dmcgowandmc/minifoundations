@@ -37,6 +37,11 @@ locals {
     )
 }
 
+#Collect information about the Pipeline Role as different settings are needed for different components
+data "aws_iam_role" "cbcp-role" {
+    name = var.role_name
+}
+
 #Get secure token from ssm parameter store
 data "aws_ssm_parameter" "ssm_github_token" {
     name = var.ssm_github_token
@@ -56,7 +61,7 @@ resource "aws_codebuild_project" "codebuild" {
     #build_timeout  = "5"
     #queued_timeout = "5"
 
-    service_role = var.role_arn
+    service_role = data.aws_iam_role.cbcp-role.arn
 
     #Source is GitHub
     source {
@@ -91,7 +96,7 @@ resource "aws_codebuild_project" "codebuild" {
 #Create the CodePipeline
 resource "aws_codepipeline" "codepipeline" {
     name     = local.cp_name
-    role_arn = var.role_arn
+    role_arn = data.aws_iam_role.cbcp-role.arn
 
     #Create artefact store as this is mandatory
     artifact_store {
@@ -147,4 +152,26 @@ resource "aws_codepipeline" "codepipeline" {
     }
 }
 
-#
+#If we are using the cp-s3 template, we will create a custom policy for secure access to the s3 buckets
+#Create the policy
+data "template_file" "cp-s3-access-json" {
+    count = var.cb_buildspec_cmd["cmd"] == "cp-s3" ? 1 : 0
+
+    template = file("${path.module}/policies/cp-s3-access.json.tpl")
+
+    vars = {
+        artefact_bucket = var.artefact_bucket_name
+        customer_bucket = var.cb_buildspec_cmd["var"]["bucket"]
+        customer_path   = substr(local.cp_name, 0, 20)
+    }
+}
+
+#Create an inline policy and add to the pipeline role
+resource "aws_iam_role_policy" "cp-s3-access-policy" {
+    count = var.cb_buildspec_cmd["cmd"] == "cp-s3" ? 1 : 0
+
+    name = "${var.role_name}-cp-s3-access"
+    role = var.role_name
+
+    policy = data.template_file.cp-s3-access-json[0].rendered
+}
