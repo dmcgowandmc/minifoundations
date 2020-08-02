@@ -9,5 +9,5 @@ output "role_arn" {
 
 output "role_name" {
     description = "Name of the role"
-    value       = module.iam_assumable_role.this_iam_role_arn
+    value       = module.iam_assumable_role.this_iam_role_name
 }
