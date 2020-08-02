@@ -40,9 +40,10 @@ module "iam_assumable_role" {
 
 #Create the custom policy
 resource "aws_iam_policy" "assume-policy" {
-    name        = "${var.project_code}-${local.role_resource_code}-${var.name}-assume-sts"
+    #FIX REQUIRED
+    name        = "${local.role_name}-assume-sts"
     path        = "/"
-    description = "Enable use of the secure token service for ${var.project_code}-${local.role_resource_code}-${var.name}"
+    description = "Enable use of the secure token service for ${local.role_name}"
 
     policy = <<EOF
 {
