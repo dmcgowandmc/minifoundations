@@ -172,7 +172,7 @@ module "cicd_foundations_master" {
     github_path          = var.github_foundations_path
     github_owner         = var.github_owner
     project_code         = var.project_code
-    role_arn             = module.infra_role.role_arn
+    role_name             = module.infra_role.role_name
     ssm_github_token     = var.ssm_github_token
 }
 
@@ -193,7 +193,7 @@ module "cicd_foundations_production" {
     github_path          = var.github_foundations_path
     github_owner         = var.github_owner
     project_code         = var.project_code
-    role_arn             = module.infra_role.role_arn
+    role_name             = module.infra_role.role_name
     ssm_github_token     = var.ssm_github_token
 }
 
@@ -212,7 +212,7 @@ module "cicd_services_master" {
     github_path          = var.github_services_path
     github_owner         = var.github_owner
     project_code         = var.project_code
-    role_arn             = module.infra_role.role_arn
+    role_name             = module.infra_role.role_name
     ssm_github_token     = var.ssm_github_token
 }
 
@@ -231,6 +231,6 @@ module "cicd_services_production" {
     github_path          = var.github_services_path
     github_owner         = var.github_owner
     project_code         = var.project_code
-    role_arn             = module.infra_role.role_arn
+    role_name             = module.infra_role.role_name
     ssm_github_token     = var.ssm_github_token
 }
