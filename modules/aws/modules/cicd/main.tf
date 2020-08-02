@@ -56,7 +56,7 @@ resource "aws_codebuild_project" "codebuild" {
     #build_timeout  = "5"
     #queued_timeout = "5"
 
-    service_role = var.cp_role_arn
+    service_role = var.role_arn
 
     #Source is GitHub
     source {
@@ -91,7 +91,7 @@ resource "aws_codebuild_project" "codebuild" {
 #Create the CodePipeline
 resource "aws_codepipeline" "codepipeline" {
     name     = local.cp_name
-    role_arn = var.cp_role_arn
+    role_arn = var.role_arn
 
     #Create artefact store as this is mandatory
     artifact_store {
@@ -146,3 +146,5 @@ resource "aws_codepipeline" "codepipeline" {
         ignore_changes = [stage[0].action[0].configuration]
     }
 }
+
+#
