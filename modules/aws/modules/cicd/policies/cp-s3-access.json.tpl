@@ -1,6 +1,6 @@
 {
     "Version": "2012-10-17",
-    "Id": "Secure S3 access for cp-s3 instructions"
+    "Id": "Secure S3 access for cp-s3 instructions",
     "Statement": [
         {
             "Sid": "ListArtefact",
