@@ -6,13 +6,15 @@ A simple low cost foundations on AWS for hobby projects
 
 Some features of the Mini Foundations AWS:
 
-* Cloud Trail S3 storage for auditing
+* Central S3 audit location
+* Cloud Trail for long term auditing of API interactions to AWS
 * Groups for IAM Users
-  * Admin group for full access
+  * Admin group for full access including billing
   * Infra group for power user DevOps engineers
+  * Infra group for regular DevOps engineers (coming soon)
 * Roles for CICD Deployment tools
-  * Infra role for foundation and application infrastructure deployment
-  * App role for deployment of application artefact to S3, ECR, etc
+  * Infra role for foundational infrastructure tasks
+  * Infra role for regular infrastructure tasks (coming soon)
 * Best practice network architecture
   * Public, private and data subnets
   * NAT for private and data subnets
@@ -53,7 +55,13 @@ make prepare_terraform_environment PROJECT_CODE=tst REGION=ap-southeast-2
 
 ### Create the SSM parameter store with GitHub token
 
-NOTE: Instructions to actually create the GitHub token to be added
+Create a new GitHub token. Follow these instructions:
+
+https://docs.github.com/en/github/authenticating-to-github/creating-a-personal-access-token
+
+Make sure you add the following permissions:
+
+* TO BE UPDATED
 
 Once you have the GitHub token, follow these steps to create an SSM parameter (sorry no automation yet)
 
@@ -78,7 +86,7 @@ You need to create credentials for the bootstrap user that was created in previo
 Log into AWS console with user that has permission to modify IAM credentials
 
 ```bash
-https://console.aws.amazon.com/iam/home#/users/<project_code>-u-bootstrap?section=security_credentials)
+https://console.aws.amazon.com/iam/home#/users/<project_code>-u-bootstrap?section=security_credentials
 ```
 
 Create access key and secret and keep in a safe place
@@ -89,7 +97,7 @@ If you are cloning this into your own repo, you will need to define a terraform.
 
 ```bash
 #Inputs for CloudTrail long term storage
-ct_bucket_name = "platformtrail"
+audit_bucket_name = "auditlog"
 
 #Inputs for admin group
 group_admin_name        = "administrators"
@@ -119,31 +127,23 @@ role_infra_trusted_services = [
     "codepipeline.amazonaws.com"
 ]
 
-#Inputs for fullstack role
-role_app_name = "fullstack"
-#role_app_policy_arns = [] #Permissions to be defined
-role_app_trusted_services = [
-    "codebuild.amazonaws.com"
-]
-
 #Inputs for foundations VPC
-#CHANGE-RECOMMENDED - CIDR range should be customized to your needs unless your absolutely sure this will run in isolation and not integrate with any other networks
-#NOTE: See spreadsheet (to be attached) for allocation of additional CIDRs where additional AZ's are desired. Default uses one AZ to keep costs down but strongly recommend using a minimum of two if possible
-vpc_foundations_azs              = ["ap-southeast-2a"]
-vpc_foundations_cidr             = "10.0.0.0/19"
-vpc_foundations_database_subnets = ["10.0.8.0/23"]
-vpc_foundations_private_subnets  = ["10.0.16.0/22"]
-vpc_foundations_public_subnets   = ["10.0.0.0/23"]
+#NOTE: Adding additional availability zones will increase resiliency of your workloads but add to costs
+vpc_foundations_azs              = ["ap-southeast-2a"] #For 2 AZ = ["ap-southeast-2a","ap-southeast-2b"]
+vpc_foundations_cidr             = "10.0.0.0/19"       #         = "10.0.0.0/19"
+vpc_foundations_database_subnets = ["10.0.8.0/23"]     #         = ["10.0.8.0/23","10.0.10.0/23"]
+vpc_foundations_private_subnets  = ["10.0.16.0/22"]    #         = ["10.0.16.0/22","10.0.20.0/22"]
+vpc_foundations_public_subnets   = ["10.0.0.0/23"]     #         = ["10.0.0.0/23","10.0.2.0/23"]
 vpc_foundations_name             = "foundations"
 
 #Inputs for Route 53
-#CHANGE-REQUIRED - Both Prod and UAT zones must align to a FQDN that you have full control over
-prod_zone_fqdn = "tst.dmcgowan.click"
-uat_zone_fqdn  = "uat.tst.dmcgowan.click"
+#CHANGE-REQUIRED - Enter a private FQDN. As this is private, it can be anything you want 
+internal_zone_fqdn = "<your-internal-name>.internal"
 
 #Inputs for common CICD components
 cp_bucket_name   = "artefacts"
-github_owner     = "dmcgowandmc" #CHANGE-REQUIRED - This value must be changed to the owner of the GitHub repo where your codebase resides
+#CHANGE-REQUIRED - This value must be changed to the owner of the GitHub repo where your codebase resides
+github_owner     = "<github-owner-name>"
 ssm_github_token = "github_token"
 
 #Inputs for all foundations CICD components
@@ -153,16 +153,22 @@ cb_foundations_name           = "foundations"
 cp_foundations_description    = "Foundations Pipeline"
 cp_foundations_name           = "foundations"
 github_foundations_name       = "minifoundations"
-github_foundations_path       = "https://github.com/dmcgowandmc/minifoundations.git" #CHANGE-REQUIRED - This value must be changed to path of the GitHub repo where your codebase resides
+#CHANGE-REQUIRED - This value must be changed to path of the GitHub repo where your foundations resides
+github_foundations_path       = "https://<path-to-repo>.git"
 
 #Inputs for all webstack CICD components
-cb_webstack_description = "Webstack CodeBuild"
-cb_webstack_name        = "webstack"
-cp_webstack_description = "Webstack Pipeline"
-cp_webstack_name        = "webstack"
-github_webstack_name    = "webstack"
-github_webstack_path    = "https://github.com/dmcgowandmc/webstack.git" #CHANGE-REQUIRED - This value must be changed to the owner of the GitHub repo where your codebase resides
+cb_services_description = "Services CodeBuild"
+cb_services_name        = "services"
+cp_services_description = "Services Pipeline"
+cp_services_name        = "services"
+github_services_name    = "services"
+#CHANGE-REQUIRED - This value must be changed to path of the GitHub repo where your services resides
+github_services_path    = "https://<path-to-repo>.git"
 ```
+
+Whats services??!! 
+
+Services is a repo that allows you to build infrastructure on top of the foundations. If you are rolling your own infrastructure over the top of foundations, you can comment out the services pipeline definition
 
 ### Deploy Environment
 
@@ -198,6 +204,8 @@ Example:
 ```bash
 make terraform_init_apply STATEBUCKET=terrastate-1125 PROJECT_CODE=tst REGION=ap-southeast-2
 ```
+
+After initial deployment, you will notice two code pipeline and code build jobs in AWS which can be used for ongoing maintenance and updates
 
 ## Ongoing Maintenance and Updates
 

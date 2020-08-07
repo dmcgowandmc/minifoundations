@@ -94,17 +94,6 @@ output "role_infra_arn" {
     value       = module.infra_role.role_arn
 }
 
-#Outputs for app role
-output "role_app_name" {
-    description = "Name of the app role"
-    value       = module.app_role.role_name
-}
-
-output "role_app_arn" {
-    description = "ARN of the app role"
-    value       = module.app_role.role_arn
-}
-
 #Outputs for internal Route53 zone
 output "zone_id" {
     description = "The internal zone ID"
