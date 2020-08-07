@@ -59,11 +59,6 @@ variable "cp_name" {
     description = "Name of the Code Pipeline"
 }
 
-variable "cp_role_arn" {
-    type        = string
-    description = "The ARN of the role CodePipeline will use"
-}
-
 variable "github_branch" {
     type        = string
     description = "The branch for the CICD to work off"
@@ -81,6 +76,11 @@ variable "github_owner" {
 variable "github_path" {
     type        = string
     description = "Path to the GitHub repo"
+}
+
+variable "role_name" {
+    type        = string
+    description = "The name of the role CodePipeline AND CodeBuild will use"
 }
 
 variable "ssm_github_token" {

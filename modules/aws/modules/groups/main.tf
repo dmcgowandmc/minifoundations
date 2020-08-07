@@ -5,6 +5,9 @@
 locals {
     #Resource code
     group_resource_code = "g"
+
+    #Name and Tag Settings
+    group_name = var.customer_code == "" && var.environment_code == "" ? "${var.project_code}-${local.group_resource_code}-${var.name}" : var.environment_code == "" ? "${var.project_code}-${local.group_resource_code}-${var.customer_code}-${var.name}" : "${var.project_code}-${local.group_resource_code}-${var.customer_code}-${var.environment_code}-${var.name}"
 }
 
 #Use standard AWS module to create IAM Group with policies
@@ -16,5 +19,5 @@ module "iam_group_with_policies" {
     custom_group_policies             = var.policies
     custom_group_policy_arns          = var.policy_arns
     group_users                       = var.users
-    name                              = "${var.project_code}-${local.group_resource_code}-${var.name}"
+    name                              = local.group_name
 }

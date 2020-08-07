@@ -104,16 +104,6 @@ module "infra_role" {
     trusted_services = var.role_infra_trusted_services
 }
 
-#Create app role (for use by CICD for application deployments)
-module "app_role" {
-    source = "./modules/roles"
-
-    name             = var.role_app_name
-    policy_arns      = var.role_app_policy_arns
-    project_code     = var.project_code
-    trusted_services = var.role_app_trusted_services
-}
-
 #Create VPC for the platform
 module "vpc_foundations" {
     source = "./modules/vpc"
@@ -166,13 +156,13 @@ module "cicd_foundations_master" {
     cb_name              = var.cb_foundations_name
     cp_description       = var.cp_foundations_description
     cp_name              = var.cp_foundations_name
-    cp_role_arn          = module.infra_role.role_arn
     environment_code     = "uat"
     github_branch        = "master"
     github_name          = var.github_foundations_name
     github_path          = var.github_foundations_path
     github_owner         = var.github_owner
     project_code         = var.project_code
+    role_name             = module.infra_role.role_name
     ssm_github_token     = var.ssm_github_token
 }
 
@@ -187,13 +177,13 @@ module "cicd_foundations_production" {
     cb_name              = var.cb_foundations_name
     cp_description       = var.cp_foundations_description
     cp_name              = var.cp_foundations_name
-    cp_role_arn          = module.infra_role.role_arn
     environment_code     = "prod"
     github_branch        = "production"   
     github_name          = var.github_foundations_name
     github_path          = var.github_foundations_path
     github_owner         = var.github_owner
     project_code         = var.project_code
+    role_name             = module.infra_role.role_name
     ssm_github_token     = var.ssm_github_token
 }
 
@@ -206,13 +196,13 @@ module "cicd_services_master" {
     cb_name              = var.cb_services_name
     cp_description       = var.cp_services_description
     cp_name              = var.cp_services_name
-    cp_role_arn          = module.infra_role.role_arn
     environment_code     = "uat"
     github_branch        = "master"
     github_name          = var.github_services_name
     github_path          = var.github_services_path
     github_owner         = var.github_owner
     project_code         = var.project_code
+    role_name             = module.infra_role.role_name
     ssm_github_token     = var.ssm_github_token
 }
 
@@ -225,12 +215,12 @@ module "cicd_services_production" {
     cb_name              = var.cb_services_name
     cp_description       = var.cp_services_description
     cp_name              = var.cp_services_name
-    cp_role_arn          = module.infra_role.role_arn
     environment_code     = "prod"
     github_branch        = "production"
     github_name          = var.github_services_name
     github_path          = var.github_services_path
     github_owner         = var.github_owner
     project_code         = var.project_code
+    role_name             = module.infra_role.role_name
     ssm_github_token     = var.ssm_github_token
 }
