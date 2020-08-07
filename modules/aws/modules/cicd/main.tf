@@ -152,6 +152,28 @@ resource "aws_codepipeline" "codepipeline" {
     }
 }
 
+#For any role used by codebuild, we need to create and attach a custom policy that allows use of the secure token service (sts)
+
+#Why? Within docker, we have to actually pass in credentials, fixed or otherwise. So beforehand, we need to explicitly call sts, obtain the 
+#temporary credentials, and pass to docker as input variables
+
+#Create the policy
+data "template_file" "sts-json" {
+    template = file("${path.module}/policies/sts.json.tpl")
+
+    vars = {
+        cbcp_role_arn = data.aws_iam_role.cbcp-role.arn
+    }
+}
+
+#Create an inline policy and add to the pipeline role
+resource "aws_iam_role_policy" "sts-policy" {
+    name = "${var.role_name}-sts"
+    role = var.role_name
+
+    policy = data.template_file.sts-json.rendered
+}
+
 #If we are using the cp-s3 template, we will create a custom policy for secure access to the s3 buckets
 #Create the policy
 data "template_file" "cp-s3-access-json" {
