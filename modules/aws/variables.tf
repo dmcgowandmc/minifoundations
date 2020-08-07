@@ -75,23 +75,6 @@ variable "role_infra_trusted_services" {
     description = "List of trusted services that can use this role"
 }
 
-#Inputs for app role
-variable "role_app_name" {
-    type        = string
-    description = "Name of the infra role"
-}
-
-variable "role_app_policy_arns" {
-    type        = list(string)
-    description = "List of ARNs to attach to this infra role. Must be defined"
-    default     = []
-}
-
-variable "role_app_trusted_services" {
-    type        = list(string)
-    description = "List of trusted services that can use this role"
-}
-
 #Inputs for foundations VPC
 variable "vpc_foundations_azs" {
     type        = list(string)

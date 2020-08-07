@@ -104,16 +104,6 @@ module "infra_role" {
     trusted_services = var.role_infra_trusted_services
 }
 
-#Create app role (for use by CICD for application deployments)
-module "app_role" {
-    source = "./modules/roles"
-
-    name             = var.role_app_name
-    policy_arns      = var.role_app_policy_arns
-    project_code     = var.project_code
-    trusted_services = var.role_app_trusted_services
-}
-
 #Create VPC for the platform
 module "vpc_foundations" {
     source = "./modules/vpc"
