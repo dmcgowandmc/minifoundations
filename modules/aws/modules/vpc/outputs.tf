@@ -32,16 +32,6 @@ output "public_subnets" {
     value       = module.vpc.public_subnets
 }
 
-output "ssm_security_group_arn" {
-    description = "ID of the SSM Endpoint security group"
-    value       = aws_security_group.ssm.arn
-}
-
-output "ssm_security_group_id" {
-    description = "ID of the SSM Endpoint security group"
-    value       = aws_security_group.ssm.id
-}
-
 output "vpc_id" {
     description = "ID of the VPC"
     value       = module.vpc.vpc_id

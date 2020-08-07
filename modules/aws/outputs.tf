@@ -131,16 +131,6 @@ output "vpc_foundations_public_subnets" {
     value       = module.vpc_foundations.public_subnets
 }
 
-output "vpc_foundations_ssm_security_group_arn" {
-    description = "ID of the SSM Endpoint security group for foundations"
-    value       = module.vpc_foundations.ssm_security_group_arn
-}
-
-output "vpc_foundations_ssm_security_group_id" {
-    description = "ID of the SSM Endpoint security group for foundations"
-    value       = module.vpc_foundations.ssm_security_group_id
-}
-
 output "vpc_foundations_vpc_id" {
     description = "ID of the foundations VPC for foundations"
     value       = module.vpc_foundations.vpc_id
