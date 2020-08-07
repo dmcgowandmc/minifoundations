@@ -4,7 +4,17 @@
 
 locals {
     #Resource code NOTE: Resource and project code will only be used for tags
-    role_resource_code = "vpc"
+    vpc_resource_code = "vpc"
+
+    #Name and Tag Settings
+    vpc_name = "${var.project_code}-${local.vpc_resource_code}-${var.name}"
+    tags = {
+        "Name"             = local.vpc_name,
+        "Project Code"     = var.project_code,
+        "Resource Code"    = local.vpc_resource_code,
+        "Customer Code"    = "NA"
+        "Environment Code" = "NA"
+    }
 }
 
 #Create VPC with desired subnets
@@ -14,7 +24,7 @@ module "vpc" {
     version = "~> 2.0"
 
     #Name of VPC
-    name = "${var.project_code}-${local.role_resource_code}-${var.name}"
+    name = local.vpc_name
 
     #AZ and Subnet Configuration
     azs              = var.azs
@@ -34,4 +44,6 @@ module "vpc" {
     #Standard endpoints to enable. This allows resources within VPC to talk directly to AWS API's without heading out to the internet
     enable_dynamodb_endpoint = true
     enable_s3_endpoint       = true
+
+    tags = local.tags
 }
