@@ -3,7 +3,7 @@ version: "2.0"
 services:
     terraform:
         build: .
-        image: custom/terraform:0.12.20
+        image: custom/terraform:0.12.29
         volumes:
             - ".:/build"
         working_dir: /build
