@@ -49,7 +49,7 @@ module "audit_s3_bucket" {
     }
 }
 
-#Create a bucket policy for long term stroage s3 bucket. Basically we want to prevent accidental or intentional deletion of data
+#Create a bucket policy for long term storage s3 bucket. Basically we want to prevent accidental or intentional deletion of data
 #Create the policy
 data "template_file" "audit_s3_bucket_policy_json" {
     template = file("policies/audit-s3-bucket-policy.json.tpl")
