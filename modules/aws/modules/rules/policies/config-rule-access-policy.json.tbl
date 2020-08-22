@@ -1,0 +1,39 @@
+{
+    "Id": "Provide config rules access to services for compliance audits",
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "AllowConfigRulePut",
+            "Action": "config:Put*",
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Sid": "AllowS3ComplianceAclCheck",
+            "Effect": "Allow",
+            "Action": "s3:GetBucketAcl",
+            "Resource": "arn:aws:s3:::${audit_bucket_id}"
+        },
+        {
+            "Sid": "AllowS3ComplianceListAll",
+            "Action": [
+                "s3:List*"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::${audit_bucket_id}"
+            ]
+        },
+        {
+            "Sid": "AllowS3CompliancePutConfigPath",
+            "Action": [
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::${audit_bucket_id}/AWSLogs/${account_id}/*"
+            ]
+        }
+    ]
+}

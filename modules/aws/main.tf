@@ -94,6 +94,28 @@ resource "aws_accessanalyzer_analyzer" "account_analyzer" {
     }
 }
 
+#Create role for the config rules
+module "config_rule_role" {
+    source = "./modules/roles"
+
+    name             = "configrulerecorder"
+    project_code     = var.project_code
+    trusted_services = [
+        "config.amazonaws.com"
+    ]
+}
+
+#Create config rule to check for root account MFA enabled
+module "config_rule_mfa" {
+    source = "./modules/rules"
+
+    audit_bucket_id = module.audit_s3_bucket.s3_bucket_id
+    name            = "rootmfa"
+    project_code    = var.project_code
+    cr_rule         = "ROOT_ACCOUNT_MFA_ENABLED"
+    crr_role_name   = module.config_rule_role.role_name
+}
+
 #Create admin group
 module "admin_group" {
     source = "./modules/groups"
