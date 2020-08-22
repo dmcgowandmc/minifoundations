@@ -74,6 +74,18 @@ resource "aws_cloudtrail" "accesstrail" {
     include_global_service_events = false
 }
 
+#Create IAM Access analyser (limited benefit turning this into a module for now)
+resource "aws_accessanalyzer_analyzer" "account_analyzer" {
+    analyzer_name = "${var.project_code}-iam-accountanalyzer"
+    tags = {
+        "Name"             = "${var.project_code}-iam-accountanalyzer",
+        "Project Code"     = var.project_code,
+        "Resource Code"    = "iam",
+        "Customer Code"    = "NA"
+        "Environment Code" = "NA"
+    }
+}
+
 #Create admin group
 module "admin_group" {
     source = "./modules/groups"
