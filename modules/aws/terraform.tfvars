@@ -2,6 +2,9 @@
 ## If running this directly and not using as a module, values are defined here ##
 #################################################################################
 
+#Inputs for SNS topics
+sns_name_critical = "alertcritical"
+
 #Inputs for long term storage of logs for auditing
 audit_bucket_name = "auditlog"
 

@@ -18,6 +18,12 @@ variable "statebucket" {
     description = "The name of the s3 bucket that stores the statefiles"
 }
 
+#Inputs for SNS Topics
+variable "sns_name_critical" {
+    type        = string
+    description = "Name of the SNS topic for critical alerts"
+}
+
 #Inputs for long term storage of logs for auditing
 variable "audit_bucket_name" {
     type        = string

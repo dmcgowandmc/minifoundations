@@ -30,6 +30,14 @@ resource "aws_ssm_parameter" "infra_role_arn" {
     value = module.infra_role.role_arn
 }
 
+#Create SNS topic for alerts by varous services
+module "sns_critical" {
+    source = "./modules/sns"
+
+    project_code = var.project_code
+    sns_name     = var.sns_name_critical
+}
+
 #Create bucket for long term storage of logs for auditing
 module "audit_s3_bucket" {
     source = "./modules/s3-bucket"

@@ -18,6 +18,12 @@ output "statebucket" {
     value       = var.statebucket
 }
 
+#Outputs for SNS critical topics
+output "sns_arn_critical" {
+    description = "The ARN of the SNS critical topic"
+    value       = module.sns_critical.sns_arn
+}
+
 #Outputs for long term storage of logs for auditing
 output "audit_s3_bucket_name" {
     description = "The name of the audit bucket (excluding random prefix)"
