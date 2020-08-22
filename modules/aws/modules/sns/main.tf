@@ -6,7 +6,7 @@ locals {
     #Resource code
     sns_resource_code = "sns"
 
-    #Tag Settings
+    #Name / Tag Settings
     sns_name = var.customer_code != "" && var.environment_code != "" ? "${var.project_code}-${local.sns_resource_code}-${var.customer_code}-${var.environment_code}-${var.sns_name}" : "${var.project_code}-${local.sns_resource_code}-${var.sns_name}"
     tags = merge(
         {
