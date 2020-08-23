@@ -1,5 +1,5 @@
 {
-    "Id": "Provide config rules access to services for compliance audits",
+    "Id": "Provide config rules access to services not covered under standard service policy",
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -35,6 +35,12 @@
                     "s3:x-amz-acl": "bucket-owner-full-control"
                 }
             }
+        },
+        {
+            "Sid": "AllowEC2ReadAllTagFull",
+            "Action": "ec2:*",
+            "Effect": "Allow",
+            "Resource": "*"
         }
     ]
 }
