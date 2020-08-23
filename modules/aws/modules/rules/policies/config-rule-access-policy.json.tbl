@@ -20,9 +20,7 @@
                 "s3:List*"
             ],
             "Effect": "Allow",
-            "Resource": [
-                "arn:aws:s3:::${audit_bucket_id}"
-            ]
+            "Resource": "arn:aws:s3:::${audit_bucket_id}"
         },
         {
             "Sid": "AllowS3CompliancePutConfigPath",
@@ -31,9 +29,12 @@
                 "s3:PutObject"
             ],
             "Effect": "Allow",
-            "Resource": [
-                "arn:aws:s3:::${audit_bucket_id}/AWSLogs/${account_id}/*"
-            ]
+            "Resource": "arn:aws:s3:::${audit_bucket_id}/AWSLogs/${account_id}/*",
+            "Condition":{
+                "StringLike":{
+                    "s3:x-amz-acl": "bucket-owner-full-control"
+                }
+            }
         }
     ]
 }

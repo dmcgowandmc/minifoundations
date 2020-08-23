@@ -9,19 +9,15 @@ variable "project_code" {
 }
 
 #All other vars for the module
-variable "name" {
-    type        = string
-    description = "Name of the config rule"
-}
-
 variable "audit_bucket_id" {
     type        = string
     description = "ID of the bucket that will store config rule violations"
 }
 
-variable "cr_rule" {
-    type        = string
-    description = "Name of the AWS provided config rule"
+variable "cr_rules" {
+    type        = list(string)
+    description = "List of AWS provided config rules"
+    default     = ["ROOT_ACCOUNT_MFA_ENABLED"]
 }
 
 variable "crr_role_name" {

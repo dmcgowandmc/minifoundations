@@ -30,6 +30,13 @@ variable "audit_bucket_name" {
     description = "Name of s3 bucket for long term stroage of CloudTrail logs"
 }
 
+#Inputs for config rules
+variable "cr_rules" {
+    type        = list(string)
+    description = "List of AWS provided config rules"
+    default     = ["ROOT_ACCOUNT_MFA_ENABLED"]
+}
+
 #Inputs for admin group
 variable "group_admin_name" {
     type        = string

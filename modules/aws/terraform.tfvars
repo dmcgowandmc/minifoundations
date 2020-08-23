@@ -8,6 +8,11 @@ sns_name_critical = "alertcritical"
 #Inputs for long term storage of logs for auditing
 audit_bucket_name = "auditlog"
 
+#Inputs for config rules
+cr_rules = [
+    "ROOT_ACCOUNT_MFA_ENABLED"
+]
+
 #Inputs for admin group
 group_admin_name        = "administrators"
 group_admin_policy_arns = [

@@ -10,23 +10,23 @@ locals {
     crs_resource_code = "crs"
 
     #Config rule recorder name
-    crr_name = "${var.project_code}-${local.crr_resource_code}-${var.name}"
+    crr_name = "${var.project_code}-${local.crr_resource_code}-setting"
 
     #Config rule delivery channel
-    crdc_name = "${var.project_code}-${local.crdc_resource_code}-${var.name}"
-
-    #Config rule status
-    crs_name = "${var.project_code}-${local.crs_resource_code}-${var.name}"
+    crdc_name = "${var.project_code}-${local.crdc_resource_code}-setting"
 
     #Config rule Name / Tag settings
-    cr_name = "${var.project_code}-${local.cr_resource_code}-${var.name}"
-    tags = {
-        "Name"             = local.cr_name,
-        "Project Code"     = var.project_code,
-        "Resource Code"    = local.cr_resource_code,
-        "Customer Code"    = "NA",
-        "Environment Code" = "NA"
-    }
+    cr_names = [for rule in var.cr_rules: "${var.project_code}-${local.cr_resource_code}-${lower(rule)}"]
+
+    # list_tags = [for rule in var.rules:
+    #     {
+    #         "Name": ${var.project_code}-${local.cr_resource_code}-${lower(rule)}
+    #         "Project Code"     = var.project_code,
+    #         "Resource Code"    = local.cr_resource_code,
+    #         "Customer Code"    = "NA",
+    #         "Environment Code" = "NA"
+    #     }
+    # ]
 }
 
 #Get details of account calling these operations
@@ -85,11 +85,13 @@ resource "aws_config_configuration_recorder_status" "crs" {
 
 #Create config rule (Only AWS provided rules supported at this point)
 resource "aws_config_config_rule" "cr" {
-    name = local.cr_name
+    count = length(local.cr_names)
+    
+    name = local.cr_names[count.index]
 
     source {
         owner             = "AWS"
-        source_identifier = var.cr_rule
+        source_identifier = var.cr_rules[count.index]
     }
 
     depends_on = [
