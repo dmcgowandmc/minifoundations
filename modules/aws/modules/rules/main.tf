@@ -15,18 +15,7 @@ locals {
     #Config rule delivery channel
     crdc_name = "${var.project_code}-${local.crdc_resource_code}-setting"
 
-    #Config rule Name / Tag settings
-    cr_names = [for rule in var.cr_rules: "${var.project_code}-${local.cr_resource_code}-${lower(rule)}"]
-
-    # list_tags = [for rule in var.rules:
-    #     {
-    #         "Name": ${var.project_code}-${local.cr_resource_code}-${lower(rule)}
-    #         "Project Code"     = var.project_code,
-    #         "Resource Code"    = local.cr_resource_code,
-    #         "Customer Code"    = "NA",
-    #         "Environment Code" = "NA"
-    #     }
-    # ]
+    #Config rule name and tags defined in actual resources
 }
 
 #Get details of account calling these operations
@@ -66,6 +55,7 @@ resource "aws_config_configuration_recorder" "crr" {
 resource "aws_config_delivery_channel" "crdc" {
     name           = local.crdc_name
     s3_bucket_name = var.audit_bucket_id
+    sns_topic_arn  = var.sns_critical_arn
 
     depends_on = [
         aws_config_configuration_recorder.crr,
@@ -85,16 +75,35 @@ resource "aws_config_configuration_recorder_status" "crs" {
 
 #Create config rule (Only AWS provided rules supported at this point)
 resource "aws_config_config_rule" "cr" {
-    count = length(local.cr_names)
+    for_each = var.cr_rules
     
-    name = local.cr_names[count.index]
+    input_parameters = jsonencode(each.value)
+    name             = "${var.project_code}-${local.cr_resource_code}-${lower(each.key)}"
 
     source {
         owner             = "AWS"
-        source_identifier = var.cr_rules[count.index]
+        source_identifier = each.key
+    }
+
+    tags = {
+        "Name"             = "${var.project_code}-${local.cr_resource_code}-${lower(each.key)}"
+        "Project Code"     = var.project_code
+        "Resource Code"    = local.cr_resource_code
+        "Customer Code"    = "NA"
+        "Environment Code" = "NA"
     }
 
     depends_on = [
         aws_config_configuration_recorder.crr
     ]
 }
+
+# # list_tags = [for rule in var.rules:
+    # #     {
+    # #         "Name": ${var.project_code}-${local.cr_resource_code}-${lower(rule)}
+    # #         "Project Code"     = var.project_code,
+    # #         "Resource Code"    = local.cr_resource_code,
+    # #         "Customer Code"    = "NA",
+    # #         "Environment Code" = "NA"
+    # #     }
+    # # ]

@@ -9,9 +9,10 @@ sns_name_critical = "alertcritical"
 audit_bucket_name = "auditlog"
 
 #Inputs for config rules
-cr_rules = [
-    "ROOT_ACCOUNT_MFA_ENABLED"
-]
+cr_rules = {
+    "ROOT_ACCOUNT_MFA_ENABLED"               = {}
+    "CODEBUILD_PROJECT_ENVVAR_AWSCRED_CHECK" = {}
+}
 
 #Inputs for admin group
 group_admin_name        = "administrators"

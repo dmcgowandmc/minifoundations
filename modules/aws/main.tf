@@ -113,10 +113,11 @@ module "config_rule_role" {
 module "config_rule_mfa" {
     source = "./modules/rules"
 
-    audit_bucket_id = module.audit_s3_bucket.s3_bucket_id
-    project_code    = var.project_code
-    cr_rules        = var.cr_rules
-    crr_role_name   = module.config_rule_role.role_name
+    audit_bucket_id  = module.audit_s3_bucket.s3_bucket_id
+    project_code     = var.project_code
+    cr_rules         = var.cr_rules
+    crr_role_name    = module.config_rule_role.role_name
+    sns_critical_arn = module.sns_critical.sns_arn
 }
 
 #Create admin group
